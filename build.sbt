@@ -1,4 +1,4 @@
-name := """hello-play"""
+name := """goodnot.es"""
 
 version := "1.0-SNAPSHOT"
 
