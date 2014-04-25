@@ -1,13 +1,16 @@
 @(message: String)
 
 @main("Welcome to Play Framework") {
-
     <script type='text/javascript' src='@routes.Assets.at("javascripts/index.min.js")'></script>
-    
-    <div class="well">
-        <h1>@message</h1>
+
+    <div clas="row">
+      <div class="col-md-6">
+        <input id="artist-name"  class="form-control"type="text" placeholder="Name of artist">
+      </div>
     </div>
-
-    <button id="getMessageButton">Get JSON Message</button>
-
+    <div clas="row">
+      <div class="col-md-6">
+        <button id="submit-artist" class="btn btn-primary">Go</button>
+      </div>
+    </div>
 }
