@@ -17,5 +17,4 @@ object MessageController extends Controller {
   def javascriptRoutes = Action { implicit request =>
     Ok(Routes.javascriptRouter("jsRoutes")(routes.javascript.MessageController.getMessage)).as(JAVASCRIPT)
   }
-
 }
