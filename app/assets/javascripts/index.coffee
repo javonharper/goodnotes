@@ -1,4 +1,12 @@
 $ ->
   console.dir jsRoutes
   $('#submit-artist').click ->
-    console.log $('#artist-name').val()
+    artistName = $('#artist-name').val()
+    $.ajax(
+      type: 'POST'
+      url: '/api/search'
+      data:
+        query: artistName
+    ).done((data) ->
+      debugger
+    )
