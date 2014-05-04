@@ -4,6 +4,7 @@ require 'compass'
 require 'sass'
 require 'pry'
 require 'bootstrap-sass'
+require 'coffee-script'
 
 configure do
   Compass.configuration do |config|
@@ -17,6 +18,11 @@ set :sass, Compass.sass_engine_options
 
 get '/' do
   haml :index
+end
+
+get '/application.js' do
+  content_type "text/javascript"
+  coffee :application
 end
 
 get '/stylesheets/application.css' do
