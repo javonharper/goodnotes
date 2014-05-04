@@ -3,6 +3,7 @@ require 'haml'
 require 'compass'
 require 'sass'
 require 'pry'
+require 'bootstrap-sass'
 
 configure do
   Compass.configuration do |config|
