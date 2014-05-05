@@ -5,8 +5,8 @@
     %link{rel: 'stylesheet', href: '/stylesheets/application.css'}
   %body
     %h1 Goodnotes
-    %form
-      %input#search-term{type: 'text', name: 'search-terms'}
+    %form{action: '/search', method: "get"}
+      %input#query{type: 'text', name: 'query'}
       %button Search Artists
   %script{src: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
   %script{src: 'application.js'}
