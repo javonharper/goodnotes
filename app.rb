@@ -11,6 +11,7 @@ require 'pry'
 require 'sinatra/reloader' if development?
 require 'cgi'
 
+### Server Configuration
 config_file 'config.yml' 
 configure do
   Compass.configuration do |config|
@@ -22,10 +23,13 @@ end
 set :haml, format: :html5
 set :sass, Compass.sass_engine_options
 
+### Library Configuration
 api_key = settings.LASTFM_API_KEY 
 api_secret = settings.LASTFM_SECRET_KEY
 
 lastfm = Lastfm.new(api_key, api_secret)
+
+### Application Configuration
 NUM_SONGS = 5
 
 get '/' do
