@@ -8,8 +8,9 @@ require 'bootstrap-sass'
 require 'coffee-script'
 require 'lastfm'
 require 'pry'
-require 'sinatra/reloader' if development?
 require 'cgi'
+
+require 'sinatra/reloader' if development?
 
 ### Server Configuration
 config_file 'config.yml' 
@@ -60,6 +61,9 @@ get '/application.js' do
   coffee :application
 end
 
+get '/stylesheets/bootstrap.css' do
+  sass :custom_bootstrap
+end
 get '/stylesheets/application.css' do
   sass :application
 end
