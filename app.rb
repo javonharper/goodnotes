@@ -9,7 +9,7 @@ require 'coffee-script'
 require 'lastfm'
 require 'pry'
 require 'cgi'
-require 'youtube_g'
+require 'youtube_it'
 
 require 'sinatra/reloader' if development?
 
@@ -28,10 +28,9 @@ set :sass, Compass.sass_engine_options
 ### Library Configuration
 api_key = settings.LASTFM_API_KEY 
 api_secret = settings.LASTFM_SECRET_KEY
-
 lastfm = Lastfm.new(api_key, api_secret)
 
-youtube = YoutubeG::Client.new
+youtube = YoutubeIt::Client.new
 
 ### Application Configuration
 NUM_SONGS = 5
