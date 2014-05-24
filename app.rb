@@ -9,7 +9,7 @@ require 'coffee-script'
 require 'lastfm'
 require 'pry'
 require 'cgi'
-require 'youtube_it'
+require 'youtube_search'
 
 require 'sinatra/reloader' if development?
 
@@ -30,8 +30,6 @@ api_key = settings.LASTFM_API_KEY
 api_secret = settings.LASTFM_SECRET_KEY
 lastfm = Lastfm.new(api_key, api_secret)
 
-youtube = YoutubeIt::Client.new
-
 ### Application Configuration
 NUM_SONGS = 5
 
@@ -51,10 +49,16 @@ end
 
 get '/listen/:artist' do |artist|
   artist = CGI::unescape(artist)
-  results = lastfm.artist.get_top_tracks({artist: artist})
-  songs = results.first(NUM_SONGS).map  do |song|
-    song = {}
-    youttube.videos_by(query: "#{song} #{artist}")
+  top_tracks = lastfm.artist.get_top_tracks({artist: artist})
+  songs = top_tracks.first(NUM_SONGS).map  do |song|
+    media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
+    {
+      artist: song['artist']['name'],
+      song_name: song['name'],
+      media_source: :youtube,
+      youtube_media_id: media_result['video_id'],
+      youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}"
+    }
   end
 
   haml :listen, locals: {
