@@ -53,7 +53,7 @@ get '/listen/:artist' do |artist|
   songs = top_tracks.first(NUM_SONGS).map  do |song|
     media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
     {
-      artist: song['artist']['name'],
+      artist_name: song['artist']['name'],
       song_name: song['name'],
       media_source: :youtube,
       youtube_media_id: media_result['video_id'],
@@ -62,7 +62,8 @@ get '/listen/:artist' do |artist|
   end
 
   haml :listen, locals: {
-    songs: songs
+    songs: songs,
+    artist: artist
   }
 end
 
