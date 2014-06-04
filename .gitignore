@@ -1,5 +1,5 @@
 .DS_STORE
-*.swp
+*.sw?
 *.rbc
 *.sass-cache
 config.yml
