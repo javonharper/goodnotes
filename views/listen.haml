@@ -1,19 +1,34 @@
-.now-playing{style: "background-image: url(#{artist_image_url}); background-size: cover;"}
-  .container
-    .row
-      .col-md-6
-        .artist-name
-          = "Top tracks by #{artist}"
-%div
-  .container
-    .row
-      .col-12
-        %div
-          - songs.each do |song|
-            .song-card 
-              %div
-                %span.song-name
-                  = song[:name]
-              %div
-                %a{href: song[:youtube_media_url]}
-                  Listen from source
+!!!
+%html
+  %head
+    %title Goodnotes
+    %meta{charset: 'utf-8'}
+    %link{rel: 'stylesheet', href: '/stylesheets/bootstrap.css'}
+    %link{rel: 'stylesheet', href: '/stylesheets/application.css'}
+  %body{style: "background-image: url(#{artist_image_url}); background-size: cover;"}
+    .navbar.navbar-inverse{role: 'navigation'}
+      .container
+        .navbar-header
+          %a.navbar-brand{href: '/'}
+            Goodnotes
+    .now-playing
+      .container
+        .row
+          .col-md-6
+            .artist-name
+              = "Top tracks by #{artist}"
+    %div
+      .container
+        .row
+          .col-12
+            %div
+              - songs.each do |song|
+                .song-card 
+                  %div
+                    %span.song-name
+                      = song[:name]
+                  %div
+                    %a{href: song[:youtube_media_url]}
+                      Listen from source
+  %script{src: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
+  %script{src: '/application.js'}
