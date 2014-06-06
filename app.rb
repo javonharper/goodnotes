@@ -49,6 +49,9 @@ end
 
 get '/listen/:artist' do |artist|
   artist = CGI::unescape(artist)
+
+  artist_results = lastfm.artist.search({artist: artist})
+
   top_tracks = lastfm.artist.get_top_tracks({artist: artist})
   songs = top_tracks.first(NUM_SONGS).map  do |song|
     media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
@@ -57,13 +60,14 @@ get '/listen/:artist' do |artist|
       name: song['name'],
       media_source: :youtube,
       youtube_media_id: media_result['video_id'],
-      youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}"
+      youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
     }
   end
 
   haml :listen, locals: {
     songs: songs,
-    artist: artist
+    artist: artist_results['results']['artistmatches']['artist'].first['name'],
+    artist_image_url: artist_results['results']['artistmatches']['artist'].first['image'].last['content']
   }
 end
 
@@ -75,6 +79,7 @@ end
 get '/stylesheets/bootstrap.css' do
   sass :custom_bootstrap
 end
+
 get '/stylesheets/application.css' do
   sass :application
 end

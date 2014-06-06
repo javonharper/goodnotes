@@ -1,19 +1,19 @@
-.container
-  .row
-    .col-12
-      %div
-        %h1 
+.now-playing{style: "background-image: url(#{artist_image_url}); background-size: cover;"}
+  .container
+    .row
+      .col-md-6
+        .artist-name
           = "Top tracks by #{artist}"
-  .row
-    .col-12
-      %div
-        - songs.each do |song|
-          .song-card 
-            %div
-              %span.song-name
-                = song[:name]
-            %div
-              %a{href: song[:youtube_media_url]}
-                Listen from source
-
-
+%div
+  .container
+    .row
+      .col-12
+        %div
+          - songs.each do |song|
+            .song-card 
+              %div
+                %span.song-name
+                  = song[:name]
+              %div
+                %a{href: song[:youtube_media_url]}
+                  Listen from source
