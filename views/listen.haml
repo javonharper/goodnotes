@@ -1,6 +1,19 @@
-%div
-  .container
-    %div
-      = "Song Name"
-    %div
-      = "by Artist Name"
+.container
+  .row
+    .col-12
+      %div
+        %h1 
+          = "Top #{artist} tracks"
+  .row
+    .col-12
+      %div
+        - songs.each do |song|
+          .song-card 
+            %div
+              %span.song-name
+                = song[:name]
+            %div
+              %a{href: song[:youtube_media_url]}
+                Listen to from source
+
+

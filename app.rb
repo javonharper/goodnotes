@@ -53,8 +53,8 @@ get '/listen/:artist' do |artist|
   songs = top_tracks.first(NUM_SONGS).map  do |song|
     media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
     {
-      artist_name: song['artist']['name'],
-      song_name: song['name'],
+      artist: song['artist']['name'],
+      name: song['name'],
       media_source: :youtube,
       youtube_media_id: media_result['video_id'],
       youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}"
