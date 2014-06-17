@@ -1,19 +1,6 @@
-!!!
-%html
-  %head
-    %title Goodnotes
-    %meta{charset: 'utf-8'}
-    %link{rel: 'stylesheet', href: '/stylesheets/bootstrap.css'}
-    %link{rel: 'stylesheet', href: '/stylesheets/application.css'}
-  %body
-    .navbar.navbar-inverse{role: 'navigation'}
-      .container
-        .navbar-header
-          %a.navbar-brand{href: '/'}
-            Goodnotes
-    .container
-      %form{action: '/search', method: "get"}
-        %input#query{type: 'text', name: 'query'}
-        %button Search Artists
-  %script{src: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js'}
-  %script{src: '/application.js'}
+%body
+  = haml :header
+  .container
+    %form{action: '/search', method: "get"}
+      %input#query{type: 'text', name: 'query'}
+      %button Search Artists
