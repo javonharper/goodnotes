@@ -1,6 +1,7 @@
-.content{style: "background-image: url('/img/background.jpg');"}
-  = haml :header
-  .container
-    %form.search-form{action: '/search', method: "get"}
-      %input#query{type: 'text', name: 'query', placeholder: 'ex toe, tera melos, warpaint'}
-      %button Search Artists
+%body{style: "background-image: url('/img/background.jpg');"}
+  .content
+    = haml :header
+    .container
+      %form.search-form{action: '/search', method: "get"}
+        %input#query{type: 'text', name: 'query', placeholder: 'ex toe, tera melos, warpaint'}
+        %button Search Artists

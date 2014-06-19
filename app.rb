@@ -62,13 +62,15 @@ get '/listen/:artist' do |artist|
   top_tracks = lastfm.artist.get_top_tracks({artist: artist})
   songs = top_tracks.first(NUM_SONGS).map  do |song|
     media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
-    {
+    song = {
       artist: song['artist']['name'],
       name: song['name'],
-      media_source: :youtube,
+      media_source: 'youtube',
       youtube_media_id: media_result['video_id'],
       youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
     }
+
+    song
   end
 
   haml :listen, locals: {
@@ -78,11 +80,13 @@ get '/listen/:artist' do |artist|
   }
 end
 
+### Scripts
 get '/application.js' do
   content_type "text/javascript"
   coffee :application
 end
 
+### Stylesheets
 get '/stylesheets/bootstrap.css' do
   sass :custom_bootstrap
 end

@@ -1,21 +1,23 @@
-.content{style: "background-image: url(#{artist_image_url});"}
-  = haml :header
-  .now-playing
-    .container
-      .row
-        .col-md-6
-          .artist-name
-            = "Top tracks by #{artist}"
-  %div
-    .container
-      .row
-        .col-md-12 
-          %div
-            - songs.each do |song|
-              .song-card 
-                %div
-                  %span.song-name
-                    = song[:name]
-                %div
-                  %a{href: song[:youtube_media_url]}
-                    Listen from source
+
+%body{style: "background-image: url(#{artist_image_url});"}
+  .content
+    = haml :header
+    .now-playing
+      .container
+        .row
+          .col-md-6
+            .artist-name
+              = "Top tracks by #{artist}"
+    %div
+      .container
+        .row
+          .col-md-12 
+            %div
+              - songs.each do |song|
+                .song-card 
+                  %div
+                    %span.song-name
+                      = song[:name]
+                  %div
+                    %a{href: song[:youtube_media_url]}
+                      Listen from source
