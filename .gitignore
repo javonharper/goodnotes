@@ -3,3 +3,5 @@
 *.rbc
 *.sass-cache
 config.yml
+vendor/
+.bundle
