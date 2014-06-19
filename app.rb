@@ -14,25 +14,32 @@ require 'youtube_search'
 require 'sinatra/reloader' if development?
 
 ### Server Configuration
-# config_file 'config.yml' 
-# configure do
-#   Compass.configuration do |config|
-#     config.project_path = File.dirname(__FILE__)
-#     config.sass_dir = 'views/stylesheets/'
-#   end
-# end
-# 
-# set :haml, format: :html5
-# set :sass, Compass.sass_engine_options
-# 
-# ### Library Configuration
-# api_key = settings.LASTFM_API_KEY 
-# api_secret = settings.LASTFM_SECRET_KEY
-# lastfm = Lastfm.new(api_key, api_secret)
-# 
-# ### Application Configuration
-# NUM_SONGS = 5
-# 
+config_file 'config.yml' 
+
+configure do
+  Compass.configuration do |config|
+    config.project_path = File.dirname(__FILE__)
+    config.sass_dir = 'views/stylesheets/'
+  end
+end
+
+set :haml, format: :html5
+set :sass, Compass.sass_engine_options
+
+### Library Configuration
+begin
+  api_key = settings.LASTFM_API_KEY 
+  api_secret = settings.LASTFM_SECRET_KEY
+rescue
+  api_key = ENV['LASTFM_API_KEY']
+  api_secret = ENV['LASTFM_SECRET_KEY']
+end
+
+lastfm = Lastfm.new(api_key, api_secret)
+
+### Application Configuration
+NUM_SONGS = 5
+
 get '/' do
   haml :index
 end
