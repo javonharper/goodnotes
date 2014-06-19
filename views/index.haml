@@ -2,6 +2,9 @@
   .content
     = haml :header
     .container
-      %form.search-form{action: '/search', method: "get"}
-        %input#query{type: 'text', name: 'query', placeholder: 'ex toe, tera melos, warpaint'}
-        %button Search Artists
+      .search-wrapper
+        .hero
+          Expore the best tracks artists have to offer.
+        %form.search-form{action: '/search', method: "get"}
+          %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name'}
+          %button Search artists
