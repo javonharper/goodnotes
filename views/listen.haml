@@ -6,10 +6,11 @@
       .container
         .row
           .col-md-8
-            .artist-name
-              = "Here are the 5 most popular songs by #{artist}."
-            .listen-suggestion
-              Give them a spin. 
+            %div
+              .artist-name
+                = "Here are the 5 most popular songs by #{artist}."
+              .listen-suggestion
+                Give them a spin. 
 
     %div
       .container
@@ -23,4 +24,4 @@
                       = song[:name]
                   %div
                     %a.source-link{href: song[:youtube_media_url]}
-                      Listen from source
+                      Listen from source »

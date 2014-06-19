@@ -1,9 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,300)
 
-@font-face
-  font-family: 'Moderne Sans'
-  src: url('/fonts/Moderne Sans.ttf')
-
 // Variables
 $black: #333
 
@@ -38,10 +34,17 @@ a
 .app-name
   color: rgba(255, 255, 255, 0.9)
   font-size: 2em
+  font-weight: normal
   font-variant: small-caps
-  font-family: 'Moderne Sans', helvetica, arial, sans-serif
   &:hover
     text-decoration: none
+
+// Header
+.small
+  font-variant: normal
+  font-size: 0.5em
+  display: inline
+
 
 // Index page
 $button-color: #E56E56
@@ -50,19 +53,22 @@ $button-color: #E56E56
   color: $black
 
   input
-    width: 15em
+    width: 17em
     padding: 0.5em
-    border-radius: 5px
-    border: none
+    border-radius: 3px
+    border: 3px solid white
 
   button
     width: 10em
     padding: 0.5em
-    border-radius: 5px
+    border-radius: 3px
     color: white
-    background: $button-color
-    border: 1px solid $button-color
     font-weight: normal
+    background: rgba(0,0,0, 0)
+    border: 3px solid white
+    &:hover
+      background: $button-color
+      border: 3px solid $button-color
 
 .hero
   font-size: 2.5em
@@ -74,6 +80,7 @@ $button-color: #E56E56
 
 // Listen page
 .artist-name
+  font-weight: normal
   font-size: 1.5em
 
 .listen-suggestion
