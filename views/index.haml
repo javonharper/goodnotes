@@ -6,5 +6,7 @@
         .hero
           Expore the best tracks artists have to offer.
         %form.search-form{action: '/search', method: "get"}
-          %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name'}
-          %button Search artists
+          %div
+            %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name'}
+          %div
+            %button Search artists
