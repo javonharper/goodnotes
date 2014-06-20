@@ -41,6 +41,7 @@ lastfm = Lastfm.new(api_key, api_secret)
 NUM_SONGS = 5
 
 get '/' do
+  @page_title = " Goodnot.es - Discover the best tracks of any artist or band"
   haml :index
 end
 
@@ -56,6 +57,8 @@ end
 
 get '/listen/:artist' do |artist|
   artist = CGI::unescape(artist)
+
+  @page_title = " Goodnot.es - Listen to #{artist}'s best tracks"
 
   artist_results = lastfm.artist.search({artist: artist})
 
