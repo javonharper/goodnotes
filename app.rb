@@ -41,7 +41,7 @@ lastfm = Lastfm.new(api_key, api_secret)
 NUM_SONGS = 5
 
 get '/' do
-  @page_title = " Goodnot.es - Discover the best tracks of any artist or band"
+  @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
   haml :index
 end
 
@@ -61,7 +61,7 @@ end
 get '/listen/:artist' do |artist|
   artist = CGI::unescape(artist)
 
-  @page_title = " Goodnot.es - Listen to #{artist}'s best tracks"
+  @page_title = "Goodnot.es - Listen to #{artist}'s best tracks"
 
   artist_results = lastfm.artist.search({artist: artist})
 
@@ -87,7 +87,7 @@ get '/listen/:artist' do |artist|
 end
 
 get '/notfound' do
-  @page_title = 'Goodnot.es - Could not be found'
+  @page_title = 'Goodnot.es - Artist/Band could not be found.'
   haml :notfound
 end
 
@@ -97,11 +97,6 @@ get '/application.js' do
   coffee :application
 end
 
-### Stylesheets
-get '/stylesheets/bootstrap.css' do
-  sass :custom_bootstrap
-end
-
 get '/stylesheets/application.css' do
-  sass :application
+  sass(:custom_bootstrap) << sass(:application)
 end
