@@ -13,32 +13,57 @@ require 'youtube_search'
 
 require 'sinatra/reloader' if development?
 
-### Server Configuration
-config_file 'config.yml' 
-
 configure do
+  ### Server Configuration
+  config_file 'config.yml' 
+
+  set :haml, format: :html5
+  set :sass, Compass.sass_engine_options
+
+  ### Library Configuration
+  begin
+    api_key = settings.LASTFM_API_KEY 
+    api_secret = settings.LASTFM_SECRET_KEY
+  rescue
+    api_key = ENV['LASTFM_API_KEY']
+    api_secret = ENV['LASTFM_SECRET_KEY']
+  end
+
+  set :lastfm, Lastfm.new(api_key, api_secret)
+
   Compass.configuration do |config|
     config.project_path = File.dirname(__FILE__)
     config.sass_dir = 'views/stylesheets/'
   end
+
+  ### Application Configuration
+  NUM_SONGS = 5
+
 end
 
-set :haml, format: :html5
-set :sass, Compass.sass_engine_options
+class API
+  def initialize(lastfm_client)
+    @lastfm = lastfm_client
+  end
 
-### Library Configuration
-begin
-  api_key = settings.LASTFM_API_KEY 
-  api_secret = settings.LASTFM_SECRET_KEY
-rescue
-  api_key = ENV['LASTFM_API_KEY']
-  api_secret = ENV['LASTFM_SECRET_KEY']
+  def find_artist(query)
+    results = @lastfm.artist.search({artist: query})
+    matches = results['results']['artistmatches']
+
+    if matches.empty?
+      nil
+    else
+      artists = matches['artist']
+      exact_match = artists.find do |artist|
+        artist['name'].downcase == query.downcase
+      end
+
+      exact_match or artists.first
+    end
+  end
 end
 
-lastfm = Lastfm.new(api_key, api_secret)
-
-### Application Configuration
-NUM_SONGS = 5
+api = API.new(settings.lastfm)
 
 get '/' do
   @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
@@ -47,42 +72,37 @@ end
 
 get '/search' do
   query = params['query']
-  results = lastfm.artist.search({artist: query})
+  artist = api.find_artist(query)
 
-  matches = results['results']['artistmatches']
-  if matches.empty?
+  if artist.nil?
     redirect to('/notfound')
   else
-    artist = matches['artist'].first['name']
-    redirect to("listen/#{CGI::escape(artist)}")
+    redirect to("listen/#{CGI::escape(artist['name'])}")
   end
 end
 
 get '/listen/:artist' do |artist|
-  artist = CGI::unescape(artist)
+  artist_name = CGI::unescape(artist)
+  artist = api.find_artist(artist_name)
+  @page_title = "Goodnot.es - Listen to #{artist['name']}'s best tracks"
 
-  @page_title = "Goodnot.es - Listen to #{artist}'s best tracks"
+  top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist['name']})
 
-  artist_results = lastfm.artist.search({artist: artist})
-
-  top_tracks = lastfm.artist.get_top_tracks({artist: artist})
   songs = top_tracks.first(NUM_SONGS).map  do |song|
-    media_result = YoutubeSearch.search("#{artist} #{song['name']}").first
+    media_result = YoutubeSearch.search("#{artist['name']} #{song['name']}").first
     song = {
-      artist: song['artist']['name'],
+      artist: artist['name'],
       name: song['name'],
       media_source: 'youtube',
       youtube_media_id: media_result['video_id'],
       youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
     }
-
-    song
   end
 
   haml :listen, locals: {
     songs: songs,
-    artist: artist_results['results']['artistmatches']['artist'].first['name'],
-    artist_image_url: artist_results['results']['artistmatches']['artist'].first['image'].last['content']
+    artist: artist['name'],
+    artist_image_url: artist['image'].last['content']
   }
 end
 
