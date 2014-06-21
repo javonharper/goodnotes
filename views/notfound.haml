@@ -1,0 +1,13 @@
+%body{style: "background-image: url('/img/background.jpg');"}
+  .content
+    = haml :header
+    .container
+      .search-wrapper
+        .hero
+          %div Oops! Nothing could be found for your search.
+          %div Let's try another.
+        %form.search-form{action: '/search', method: "get"}
+          %div
+            %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name'}
+          %div
+            %button Search artists

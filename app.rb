@@ -48,9 +48,12 @@ end
 get '/search' do
   query = params['query']
   results = lastfm.artist.search({artist: query})
-  matches = results['results']['artistmatches']['artist']
-  unless matches.empty?
-    artist = matches.first['name']
+
+  matches = results['results']['artistmatches']
+  if matches.empty?
+    redirect to('/notfound')
+  else
+    artist = matches['artist'].first['name']
     redirect to("listen/#{CGI::escape(artist)}")
   end
 end
@@ -81,6 +84,11 @@ get '/listen/:artist' do |artist|
     artist: artist_results['results']['artistmatches']['artist'].first['name'],
     artist_image_url: artist_results['results']['artistmatches']['artist'].first['image'].last['content']
   }
+end
+
+get '/notfound' do
+  @page_title = 'Goodnot.es - Could not be found'
+  haml :notfound
 end
 
 ### Scripts
