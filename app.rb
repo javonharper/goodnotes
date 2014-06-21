@@ -1,17 +1,19 @@
+require 'bootstrap-sass'
+require 'cgi'
+require 'coffee-script'
+require 'compass'
+require 'haml'
+require 'lastfm'
+require "open-uri"
+require 'pry'
+require 'RMagick'
+require 'sass'
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/config_file'
-require 'haml'
-require 'compass'
-require 'sass'
-require 'bootstrap-sass'
-require 'coffee-script'
-require 'lastfm'
-require 'pry'
-require 'cgi'
-require 'youtube_search'
-
 require 'sinatra/reloader' if development?
+require 'tempfile'
+require 'youtube_search'
 
 configure do
   ### Server Configuration
@@ -117,6 +119,16 @@ get '/application.js' do
   coffee :application
 end
 
+### Stylesheets
+
 get '/stylesheets/application.css' do
   sass(:custom_bootstrap) << sass(:application)
+end
+
+### Images
+get '/bg.jpg' do
+  content_type 'image/jpeg'
+  img = Magick::ImageList.new("http://www.goodnot.es/img/background.jpg").first
+  img.blur_image(0.0, 8.0)
+  img.to_blob
 end
