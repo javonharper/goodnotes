@@ -53,7 +53,7 @@ class API
     if matches.empty?
       nil
     else
-      artists = matches['artist']
+      artists = [matches['artist']].flatten
       exact_match = artists.find do |artist|
         artist['name'].downcase == query.downcase
       end
