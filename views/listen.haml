@@ -1,4 +1,3 @@
-
 %body{style: "background-image: url(#{artist_image_url});"}
   .content
     = haml :header
@@ -11,17 +10,32 @@
                 = "Here are the 5 most popular songs by #{artist}."
               .listen-suggestion
                 Give them a spin. 
-
     %div
       .container
         .row
-          .col-md-12 
+          .col-md-6
             %div
               - songs.each do |song|
-                .song-card 
+                .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
                   %div
                     %span.song-name
                       = song[:name]
                   %div
-                    %a.source-link{href: song[:youtube_media_url], target: '_blank'}
+                    %a.source-link{href: song[:media_url], target: '_blank'}
                       Listen from source »
+          .col-md-6
+            #ytapiplayer
+%script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}
+
+:javascript
+  App = {}
+  App.songs = #{songs.to_json} 
+  function onYouTubePlayerReady(playerId) {
+    App.player = document.getElementById("myytplayer");
+  }
+
+  var params = { allowScriptAccess: "always" };
+    var atts = { id: "myytplayer" };
+    swfobject.embedSWF("http://www.youtube.com/v/" + App.songs[0]['media_id'] + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1",
+                       "ytapiplayer", "425", "356", "8", null, null, params, atts);
+
