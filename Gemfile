@@ -10,4 +10,5 @@ gem 'compass', '~> 0.12.6'
 gem 'coffee-script', '~> 2.2.0'
 gem 'lastfm', '~> 1.24.0'
 gem 'youtube_search'
+gem 'uglifier', '~> 2.5.1'
 gem "mini_magick"

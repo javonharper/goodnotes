@@ -13,6 +13,7 @@ require 'sinatra/json'
 require 'sinatra/config_file'
 require 'sinatra/reloader' if development?
 require 'tempfile'
+require 'uglifier'
 require 'youtube_search'
 
 configure do
@@ -118,7 +119,13 @@ end
 ### Scripts
 get '/application.js' do
   content_type "text/javascript"
-  coffee :application
+  compiled =  coffee :application
+
+  if settings.development?
+    compiled
+  else
+    Uglifier.compile(compiled)
+  end
 end
 
 ### Stylesheets
