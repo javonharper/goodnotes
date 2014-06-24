@@ -35,12 +35,9 @@
 %script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}
 
 :javascript
-  App = {}
+  window.App = App = window.App || {}
   App.songs = #{songs.to_json} 
-  function onYouTubePlayerReady(playerId) {
-    App.player = document.getElementById("myytplayer");
-  }
-
+  App.currentSong = _.first(App.songs)
   var params = { allowScriptAccess: "always" };
     var atts = { id: "myytplayer" };
     swfobject.embedSWF("http://www.youtube.com/v/" + App.songs[0]['media_id'] + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1",

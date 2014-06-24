@@ -86,7 +86,7 @@ end
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
   artist = api.find_artist(artist_name)
-  @page_title = "Goodnot.es - #{artist['name']}'s best songs"
+  @page_title = "#{artist['name']}'s best songs - Goodnot.es"
 
   top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist['name']})
 
