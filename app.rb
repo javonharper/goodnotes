@@ -104,6 +104,7 @@ get '/listen/:artist' do |artist|
 
   haml :listen, locals: {
     songs: songs,
+    share_url: request.url,
     artist: artist['name'],
     artist_image_url: artist['image'].last['content']
   }

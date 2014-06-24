@@ -12,19 +12,26 @@
                 Give them a spin. 
     %div
       .container
-        .row
-          .col-md-6
-            %div
-              - songs.each do |song|
-                .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
-                  %div
-                    %span.song-name
-                      = song[:name]
-                  %div
-                    %a.source-link{href: song[:media_url], target: '_blank'}
-                      Listen from source »
-          .col-md-6
-            #ytapiplayer
+        .songs
+          .row
+            .col-md-6
+              %div
+                - songs.each do |song|
+                  .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
+                    %div
+                      %span.song-name
+                        = song[:name]
+                    %div
+                      %a.source-link{href: song[:media_url], target: '_blank'}
+                        Listen from source »
+            .col-md-6
+              #ytapiplayer
+        .share
+          .row
+            .col-md-12
+              %div Like what you hear? Share this artist with a friend.
+              %div
+                %input.form-control{type: 'text', value: share_url}
 %script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}
 
 :javascript
