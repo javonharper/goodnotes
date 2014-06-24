@@ -6,7 +6,7 @@ require 'haml'
 require 'lastfm'
 require "open-uri"
 require 'pry'
-require 'RMagick'
+require 'mini_magick'
 require 'sass'
 require 'sinatra'
 require 'sinatra/json'
@@ -86,7 +86,7 @@ end
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
   artist = api.find_artist(artist_name)
-  @page_title = "Goodnot.es - Listen to #{artist['name']}'s best tracks"
+  @page_title = "Goodnot.es - #{artist['name']}'s best songs"
 
   top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist['name']})
 
@@ -96,8 +96,9 @@ get '/listen/:artist' do |artist|
       artist: artist['name'],
       name: song['name'],
       media_source: 'youtube',
-      youtube_media_id: media_result['video_id'],
-      youtube_media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
+      media_id: media_result['video_id'],
+      media_embed_url: "http://www.youtube.com/embed/#{media_result['video_id']}?autoplay=1&origin=http://goodnot.es",
+      media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
     }
   end
 
@@ -128,7 +129,8 @@ end
 ### Images
 get '/bg.jpg' do
   content_type 'image/jpeg'
-  img = Magick::ImageList.new("http://www.goodnot.es/img/background.jpg").first
+  img = MiniMagick::Image.open("http://www.goodnot.es/img/background.jpg")
+  binding.pry
   img.blur_image(0.0, 8.0)
   img.to_blob
 end

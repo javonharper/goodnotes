@@ -34,6 +34,8 @@ GEM
       httparty
       xml-simple
     method_source (0.8.2)
+    mini_magick (3.7.0)
+      subexec (~> 0.2.1)
     minitest (5.3.4)
     multi_json (1.10.1)
     multi_xml (0.5.5)
@@ -48,7 +50,6 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rmagick (2.13.2)
     sass (3.2.19)
     sinatra (1.4.5)
       rack (~> 1.4)
@@ -62,6 +63,7 @@ GEM
       sinatra (~> 1.4.0)
       tilt (~> 1.3)
     slop (3.5.0)
+    subexec (0.2.3)
     thread_safe (0.3.3)
     tilt (1.4.1)
     tzinfo (1.1.0)
@@ -78,9 +80,9 @@ DEPENDENCIES
   compass (~> 0.12.6)
   haml (~> 4.0.5)
   lastfm (~> 1.24.0)
+  mini_magick
   pry (~> 0.9.12.6)
   pry-nav (~> 0.2.3)
-  rmagick (~> 2.13.2)
   sinatra (~> 1.4.5)
   sinatra-contrib (~> 1.4.2)
   youtube_search

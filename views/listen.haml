@@ -1,5 +1,10 @@
-
 %body{style: "background-image: url(#{artist_image_url});"}
+  :javascript
+    function onYouTubeIframeAPIReady() {
+      debugger
+      
+    }
+
   .content
     = haml :header
     .now-playing
@@ -11,17 +16,18 @@
                 = "Here are the 5 most popular songs by #{artist}."
               .listen-suggestion
                 Give them a spin. 
-
     %div
       .container
         .row
-          .col-md-12 
+          .col-md-6
             %div
               - songs.each do |song|
-                .song-card 
+                .song-card{data: {media_id: song['media_id'], media_source: song[:media_source]}}
                   %div
                     %span.song-name
                       = song[:name]
                   %div
-                    %a.source-link{href: song[:youtube_media_url], target: '_blank'}
+                    %a.source-link{href: song[:media_url], target: '_blank'}
                       Listen from source »
+          .col-md-6
+            %iframe{id: 'player', src: "http://www.youtube.com/v/#{songs.first[:media_id]}?version=3&enablejsapi=1&origin=http://goodnot.es&autoplay=1"}
