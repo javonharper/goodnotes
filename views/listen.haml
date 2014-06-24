@@ -1,10 +1,4 @@
 %body{style: "background-image: url(#{artist_image_url});"}
-  :javascript
-    function onYouTubeIframeAPIReady() {
-      debugger
-      
-    }
-
   .content
     = haml :header
     .now-playing
@@ -22,7 +16,7 @@
           .col-md-6
             %div
               - songs.each do |song|
-                .song-card{data: {media_id: song['media_id'], media_source: song[:media_source]}}
+                .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
                   %div
                     %span.song-name
                       = song[:name]
@@ -30,4 +24,18 @@
                     %a.source-link{href: song[:media_url], target: '_blank'}
                       Listen from source »
           .col-md-6
-            %iframe{id: 'player', src: "http://www.youtube.com/v/#{songs.first[:media_id]}?version=3&enablejsapi=1&origin=http://goodnot.es&autoplay=1"}
+            #ytapiplayer
+%script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}
+
+:javascript
+  App = {}
+  App.songs = #{songs.to_json} 
+  function onYouTubePlayerReady(playerId) {
+    App.player = document.getElementById("myytplayer");
+  }
+
+  var params = { allowScriptAccess: "always" };
+    var atts = { id: "myytplayer" };
+    swfobject.embedSWF("http://www.youtube.com/v/" + App.songs[0]['media_id'] + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1",
+                       "ytapiplayer", "425", "356", "8", null, null, params, atts);
+
