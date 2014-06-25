@@ -5,6 +5,7 @@ require 'compass'
 require 'haml'
 require 'lastfm'
 require "open-uri"
+require 'ostruct'
 require 'pry'
 require 'mini_magick'
 require 'sass'
@@ -57,11 +58,13 @@ class API
       nil
     else
       artists = [matches['artist']].flatten
+
       exact_match = artists.find do |artist|
         artist['name'].downcase == query.downcase
       end
 
-      exact_match or artists.first
+      artist = exact_match or artists.first
+      OpenStruct.new(artist)
     end
   end
 end
@@ -75,35 +78,44 @@ end
 
 get '/search' do
   query = params['query']
+
+  if query.empty?
+    redirect to('/notfound')
+  end
+
   artist = api.find_artist(query)
 
   if artist.nil?
     redirect to('/notfound')
   else
-    redirect to("listen/#{CGI::escape(artist['name'])}")
+    redirect to("listen/#{CGI::escape(artist.name)}")
   end
 end
 
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
   artist = api.find_artist(artist_name)
-  @page_title = "#{artist['name']}'s best songs - Goodnot.es"
+  @page_title = "#{artist.name}'s best songs - Goodnot.es"
 
-  top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist['name']})
+  begin
+    top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist.name})
+  rescue StandardError => e
+    redirect to('/notfound')
+  end
 
   songs = top_tracks.first(NUM_SONGS).map  do |song|
-    media_result = YoutubeSearch.search("#{artist['name']} #{song['name']}").first
+    song = OpenStruct.new(song)
+    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}").first)
     song = {
-      artist: artist['name'],
-      name: song['name'],
+      artist: artist.name,
+      name: song.name,
       media_source: 'youtube',
-      media_id: media_result['video_id'],
-      media_embed_url: "http://www.youtube.com/embed/#{media_result['video_id']}?autoplay=1&origin=http://goodnot.es",
-      media_url: "https://www.youtube.com/watch?v=#{media_result['video_id']}",
+      media_id: media_result.video_id,
+      media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}",
     }
   end
 
-  template = if artist['name'].downcase == 'creed'
+  template = if artist.name.downcase == 'creed'
     :creed
   else
     :listen
@@ -112,8 +124,8 @@ get '/listen/:artist' do |artist|
   haml template, locals: {
     songs: songs,
     share_url: request.url,
-    artist: artist['name'],
-    artist_image_url: artist['image'].last['content']
+    artist: artist.name,
+    artist_image_url: artist.image.last['content']
   }
 end
 
