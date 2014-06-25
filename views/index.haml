@@ -1,4 +1,8 @@
-%body{style: "background-image: url('/img/background.jpg');"}
+:css
+  .content::before {
+    background-image: url('/img/background.jpg');
+  }
+%body
   .content
     = haml :header
     .container

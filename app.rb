@@ -7,7 +7,6 @@ require 'lastfm'
 require "open-uri"
 require 'ostruct'
 require 'pry'
-require 'mini_magick'
 require 'sass'
 require 'sinatra'
 require 'sinatra/json'
@@ -150,13 +149,4 @@ end
 
 get '/stylesheets/application.css' do
   sass(:custom_bootstrap) << sass(:application)
-end
-
-### Images
-get '/bg.jpg' do
-  content_type 'image/jpeg'
-  img = MiniMagick::Image.open("http://www.goodnot.es/img/background.jpg")
-  binding.pry
-  img.blur_image(0.0, 8.0)
-  img.to_blob
 end

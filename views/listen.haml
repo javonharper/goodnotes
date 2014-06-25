@@ -1,4 +1,8 @@
-%body{style: "background-image: url(#{artist_image_url});"}
+:css
+  .content::before {
+    background-image: url(#{artist_image_url});
+  }
+%body
   .content
     = haml :header
     .now-playing
