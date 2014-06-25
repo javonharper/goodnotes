@@ -15,7 +15,18 @@ App.playNextSong = ->
 
   if App.songs[index]
     App.currentSong = App.songs[index]
-    App.player.loadVideoById(App.currentSong['media_id'])
+    App.playSong(App.currentSong)
+
+App.playPrevSong = ->
+  index = _.indexOf(App.songs, App.currentSong) - 1
+
+  if App.songs[index]
+    App.currentSong = App.songs[index]
+    App.playSong(App.currentSong)
+
+App.playSong = (song) ->
+  $('.current-song-name').text(App.currentSong['name'])
+  App.player.loadVideoById(App.currentSong['media_id'])
 
 $(document).ready ->
   $('.song-name').click (event) ->
@@ -32,4 +43,7 @@ $(document).ready ->
     $icon.removeClass('fa-play')
     $icon.addClass('fa-spinner')
     $icon.addClass('fa-spin')
+
+  $('.prev-song').click(App.playPrevSong)
+  $('.next-song').click(App.playNextSong)
 

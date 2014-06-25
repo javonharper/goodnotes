@@ -5,20 +5,16 @@
 %body
   .content
     = haml :header
-    .now-playing
-      .container
-        .row
-          .col-md-8
-            %div
-              .artist-name
-                = "Here are the 5 most popular songs by #{artist}."
-              .listen-suggestion
-                Give them a spin. 
     %div
       .container
         .songs
           .row
             .col-md-6
+              .now-playing
+                .artist-name
+                  = "Here are the 5 most popular songs by #{artist}."
+                .listen-suggestion
+                  Give them a spin. 
               %div
                 - songs.each do |song|
                   .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
@@ -29,7 +25,15 @@
                       %a.source-link{href: song[:media_url], target: '_blank'}
                         Listen from source »
             .col-md-6
-              #ytapiplayer
+              %div
+              .controls
+                .current-song
+                  Now Playing: 
+                  %span.current-song-name
+                    = songs.first[:name]
+                %i.fa.fa-fast-backward.prev-song
+                %i.fa.fa-fast-forward.next-song
+                #ytapiplayer
         .share
           .row
             .col-md-12
