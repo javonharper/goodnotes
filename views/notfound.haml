@@ -10,5 +10,7 @@
           %div
             %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus'}
           %div
-            %button Search artists
+            %button 
+              %span.search-label Search artists
+              %i.fa.fa-play.search-icon
     = haml :footer

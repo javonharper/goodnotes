@@ -25,3 +25,11 @@ $(document).ready ->
 
     App.player.loadVideoById(id)
     App.currentSong = _.findWhere(App.songs, media_id: id)
+
+  $('.search-form button').click (event) ->
+    $(event.target).find('.search-label').text('Searching...')
+    $icon = $('.search-icon')
+    $icon.removeClass('fa-play')
+    $icon.addClass('fa-spinner')
+    $icon.addClass('fa-spin')
+
