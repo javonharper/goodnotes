@@ -84,7 +84,7 @@ get '/search' do
 
   artist = api.find_artist(query)
 
-  if artist.nil?
+  if artist.marshal_dump.empty?
     redirect to('/notfound')
   else
     redirect to("listen/#{CGI::escape(artist.name)}")
