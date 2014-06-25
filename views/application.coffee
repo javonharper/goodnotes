@@ -34,8 +34,8 @@ $(document).ready ->
     source = $songCard.data().mediaSource
     id = $songCard.data().mediaId
 
-    App.player.loadVideoById(id)
     App.currentSong = _.findWhere(App.songs, media_id: id)
+    App.playSong(App.currentSong)
 
   $('.search-form button').click (event) ->
     $(event.target).find('.search-label').text('Searching...')
