@@ -41,6 +41,6 @@
   App.currentSong = _.first(App.songs)
   var params = { allowScriptAccess: "always" };
     var atts = { id: "myytplayer" };
-    swfobject.embedSWF("http://www.youtube.com/v/" + App.songs[0]['media_id'] + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1",
+    swfobject.embedSWF("http://www.youtube.com/v/" + App.songs[0]['media_id'] + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1&color=white&fs=0&modestbranding=1&rel=0",
                        "ytapiplayer", "425", "356", "8", null, null, params, atts);
 
