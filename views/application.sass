@@ -65,6 +65,18 @@ a
   font-size: 0.5em
   display: inline
 
+.search-more
+  border: 2px solid white
+  font-weight: normal
+  border-radius: 5px
+  padding: 0.4em
+
+  &:hover
+    text-decoration: none
+    color: white
+    background: $red
+    border-color: $red
+
 // Footer
 footer
   position: absolute
@@ -84,8 +96,6 @@ footer
   color: $red
 
 // Index page
-$button-color: #E56E56
-
 .search-form
   color: $black
 
@@ -105,8 +115,8 @@ $button-color: #E56E56
     background: rgba(0,0,0, 0)
     border: 3px solid white
     &:hover
-      background: rgba($button-color, 0.5)
-      border: 3px solid rgba($button-color, 0.5)
+      background: rgba($red, 0.5)
+      border: 3px solid rgba($red, 0.5)
   .search-label
     padding-right: 0.5em
 
