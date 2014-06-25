@@ -1,5 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,300)
-
 // Variables
 $black: #333
 $red: #DF6C4F
@@ -18,8 +16,6 @@ body
   width: 100%
   color: white
   font-size: 18px
-  font-weight: 100
-  font-family: 'Open Sans', helvetica, arial, sans-serif
 
 .content:before
   content: ""
@@ -42,6 +38,8 @@ body
   filter: blur(5px)
 
 .content
+  font-weight: 300
+  font-family: 'Open Sans', helvetica, sans-serif
   padding-bottom: 4em
   background-color: rgba(0, 0, 0, 0.2)
   overflow: auto
@@ -121,9 +119,13 @@ $button-color: #E56E56
   margin: 0 auto
 
 // Listen page
-.artist-name
+.artist-name-header
   font-weight: normal
-  font-size: 1.5em
+  font-size: 1.7em
+
+.artist-name
+  font-weight: bold
+  font-size: 1.8em
 
 .listen-suggestion
   margin-bottom: 2em 

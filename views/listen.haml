@@ -11,8 +11,11 @@
           .row
             .col-md-6
               .now-playing
-                .artist-name
-                  = "Here are the 5 most popular songs by #{artist}."
+                .artist-name-header
+                  Here are the 5 most popular songs by
+                  %span.artist-name
+                    = "#{artist}."
+
                 .listen-suggestion
                   Give them a spin. 
               %div
