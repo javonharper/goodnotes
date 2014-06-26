@@ -50,7 +50,7 @@ class API
   end
 
   def find_artist(query)
-    results = @lastfm.artist.search({artist: query})
+    results = @lastfm.artist.search({artist: query.strip})
     matches = results['results']['artistmatches']
 
     if matches.empty?
