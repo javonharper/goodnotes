@@ -76,7 +76,7 @@ get '/' do
 end
 
 get '/search' do
-  query = params['query']
+  query = params['query'].strip
 
   if query.empty?
     redirect to('/notfound')
