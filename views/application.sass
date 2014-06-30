@@ -70,6 +70,7 @@ a
   font-weight: normal
   border-radius: 5px
   padding: 0.4em
+  float: right
 
   &:hover
     text-decoration: none
@@ -180,5 +181,13 @@ footer
     text-decoration: underline
 
 @media only screen and (max-device-width: 480px)
+  .container > .navbar-header
+    text-align: center
+    margin: 0
+
   .controls  
     display: none
+
+  .search-more
+    display: block
+    float: none
