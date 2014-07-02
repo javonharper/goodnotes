@@ -66,6 +66,18 @@ class API
       OpenStruct.new(artist)
     end
   end
+
+  def find_similar_artists(query, pool=10, select=3)
+    results = @lastfm.artist.get_similar(artist: query.strip)    
+
+    # Remove first element, since it is just the query.
+    results.shift
+
+    selection_pool = results.first(10).map { |r| r['name'] }
+
+    selection = selection_pool.shuffle.first(3)
+    selection
+  end
 end
 
 api = API.new(settings.lastfm)
@@ -124,7 +136,8 @@ get '/listen/:artist' do |artist|
     songs: songs,
     share_url: request.url,
     artist: artist.name,
-    artist_image_url: artist.image.last['content']
+    artist_image_url: artist.image.last['content'],
+    similar_artists: api.find_similar_artists(artist.name)
   }
 end
 

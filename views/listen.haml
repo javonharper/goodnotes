@@ -28,7 +28,6 @@
                       %a.source-link{href: song[:media_url], target: '_blank'}
                         Listen from source »
             .col-md-6
-              %div
               .controls
                 .current-song
                   Now Playing: 
@@ -37,6 +36,11 @@
                 %i.fa.fa-fast-backward.prev-song
                 %i.fa.fa-fast-forward.next-song
                 #ytapiplayer
+              .similar_artists
+                = "Like #{artist}? Check out these similar artists:"
+                - similar_artists.each do |artist|
+                  %a.similar-artist{href: "/listen/#{artist}"} 
+                    = artist
         .share
           .row
             .col-md-12
