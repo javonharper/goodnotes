@@ -36,8 +36,9 @@
                 %i.fa.fa-fast-backward.prev-song
                 %i.fa.fa-fast-forward.next-song
                 #ytapiplayer
-              .similar_artists
-                = "Like #{artist}? Check out these similar artists:"
+              .similar-artists
+                .heading
+                  = "Like #{artist}? Check out these similar artists:"
                 - similar_artists.each do |artist|
                   %a.similar-artist{href: "/listen/#{artist}"} 
                     = artist
