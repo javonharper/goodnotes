@@ -114,10 +114,11 @@ get '/listen/:artist' do |artist|
     redirect to('/notfound')
   end
 
-  songs = top_tracks.first(NUM_SONGS).map  do |song|
+  songs = top_tracks.first(NUM_SONGS).map.with_index do |song, i|
     song = OpenStruct.new(song)
     media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}").first)
     song = {
+      number: i + 1,
       artist: artist.name,
       name: song.name,
       media_source: 'youtube',

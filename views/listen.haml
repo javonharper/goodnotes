@@ -21,12 +21,15 @@
               %div
                 - songs.each do |song|
                   .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
-                    %div
-                      %span.song-name
-                        = song[:name]
-                    %div
-                      %a.source-link{href: song[:media_url], target: '_blank'}
-                        Listen from source »
+                    .number
+                      = "#{song[:number]}."
+                    .song-details
+                      %div
+                        %span.song-name
+                          = song[:name]
+                      %div
+                        %a.source-link{href: song[:media_url], target: '_blank'}
+                          Listen from source »
             .col-md-6
               .controls
                 .current-song
