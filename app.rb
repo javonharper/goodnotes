@@ -105,14 +105,16 @@ end
 
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
-  artist = api.find_artist(artist_name)
-  @page_title = "#{artist.name}'s best songs - Goodnot.es"
 
   begin
-    top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist.name})
+    artist = api.find_artist(artist_name)
+    top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist_name})
+    similar_artists = api.find_similar_artists(artist_name)
   rescue StandardError => e
     redirect to('/notfound')
   end
+
+  @page_title = "#{artist.name}'s best songs - Goodnot.es"
 
   songs = top_tracks.first(NUM_SONGS).map.with_index do |song, i|
     song = OpenStruct.new(song)
@@ -138,7 +140,7 @@ get '/listen/:artist' do |artist|
     share_url: request.url,
     artist: artist.name,
     artist_image_url: artist.image.last['content'],
-    similar_artists: api.find_similar_artists(artist.name)
+    similar_artists: similar_artists
   }
 end
 
