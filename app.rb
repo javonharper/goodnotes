@@ -121,12 +121,17 @@ get '/listen/:artist' do |artist|
   [t1, t2, t3].each {|t| t.join}
 
   artist = t1[:artist]
-  top_tracks = t2[:tracks]
+  top_tracks = t2[:tracks].first(NUM_SONGS)
   similar_artists = t3[:similar]
 
-  @page_title = "#{artist.name}'s best songs - Goodnot.es"
+  @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
+  @page_description = 
+    "
+      Listen to the 5 most popular songs by #{artist.name}:
+      #{ top_tracks.map {|s| s['name']}.join(', ') }
+    "
 
-  songs = top_tracks.first(NUM_SONGS).map.with_index do |song, i|
+  songs = top_tracks.map.with_index do |song, i|
     song = OpenStruct.new(song)
     media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}").first)
     song = {
