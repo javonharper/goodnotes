@@ -160,11 +160,7 @@ get '/application.js' do
 end
 
 ### Stylesheets
-#
-get '/stylesheets/bootstrap.css' do
-  sass(:custom_bootstrap)
-end
 
 get '/stylesheets/application.css' do
-  sass(:application)
+  sass(:custom_bootstrap) << sass(:application)
 end
