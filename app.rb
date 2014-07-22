@@ -50,7 +50,7 @@ class API
   end
 
   def find_artist(query)
-    results = @lastfm.artist.search({artist: query.strip})
+    results = @lastfm.artist.search({artist: query.strip, limit: 1})
     matches = results['results']['artistmatches']
 
     if matches.empty?
@@ -68,7 +68,7 @@ class API
   end
 
   def find_similar_artists(query, pool=10, select=3)
-    results = @lastfm.artist.get_similar(artist: query.strip)    
+    results = @lastfm.artist.get_similar(artist: query.strip, limit: pool)    
 
     # Remove first element, since it is just the query.
     results.shift
@@ -107,11 +107,11 @@ get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
 
   t1 = Thread.new {
-    Thread.current[:artist] = artist = api.find_artist(artist_name)
+    Thread.current[:artist] = api.find_artist(artist_name)
   }
 
   t2 = Thread.new {
-    Thread.current[:tracks] = top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist_name})
+    Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
   }
 
   t3 = Thread.new {
