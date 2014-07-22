@@ -106,13 +106,23 @@ end
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
 
-  begin
-    artist = api.find_artist(artist_name)
-    top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist_name})
-    similar_artists = api.find_similar_artists(artist_name)
-  rescue StandardError => e
-    redirect to('/notfound')
-  end
+  t1 = Thread.new {
+    Thread.current[:artist] = artist = api.find_artist(artist_name)
+  }
+
+  t2 = Thread.new {
+    Thread.current[:tracks] = top_tracks = settings.lastfm.artist.get_top_tracks({artist: artist_name})
+  }
+
+  t3 = Thread.new {
+    Thread.current[:similar] = api.find_similar_artists(artist_name)
+  }
+
+  [t1, t2, t3].each {|t| t.join}
+
+  artist = t1[:artist]
+  top_tracks = t2[:tracks]
+  similar_artists = t3[:similar]
 
   @page_title = "#{artist.name}'s best songs - Goodnot.es"
 
