@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Goodnotes</ShortName>
+  <Description>Search the best tracks of any artist or band</Description>
+  <Image>favicon.ico</Image>
+  <Url type="text/html" 
+       template="http://www.goodnot.es/search?query={searchTerms}"/>
+  <AdultContent>false</AdultContent>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Language>en-us</Language>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Tags>Music Songs Bands Artists Goodnot.es Goodnotes</Tags>
+</OpenSearchDescription>
