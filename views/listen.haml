@@ -45,12 +45,6 @@
                 - similar_artists.each do |artist|
                   %a.similar-artist{href: "/listen/#{artist}"} 
                     = artist
-        .share
-          .row
-            .col-md-12
-              %div Like what you hear? Share this artist with a friend.
-              %div
-                %input.form-control{type: 'text', value: share_url}
     = haml :footer
 %script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}
 
