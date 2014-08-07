@@ -91,13 +91,13 @@ get '/search' do
   query = params['query'].strip
 
   if query.empty?
-    redirect to('/notfound')
+    raise Sinatra::NotFound
   end
 
   artist = api.find_artist(query)
 
   if artist.nil? or artist.marshal_dump.empty?
-    redirect to('/notfound')
+    raise Sinatra::NotFound
   else
     redirect to("listen/#{CGI::escape(artist.name)}")
   end
@@ -159,11 +159,6 @@ get '/listen/:artist' do |artist|
   }
 end
 
-get '/notfound' do
-  @page_title = 'Goodnot.es - Artist/Band could not be found.'
-  haml :notfound
-end
-
 ### Scripts
 get '/application.js' do
   content_type "text/javascript"
@@ -176,8 +171,11 @@ get '/application.js' do
   end
 end
 
-### Stylesheets
-
 get '/stylesheets/application.css' do
   sass(:custom_bootstrap) << sass(:application)
+end
+
+not_found do
+  @page_title = 'Goodnot.es - Artist/Band could not be found.'
+  haml :notfound
 end
