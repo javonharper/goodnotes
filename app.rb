@@ -106,9 +106,8 @@ get '/search' do
 end
 
 get '/listen/:artist' do |artist|
-  artist_name = CGI::unescape(artist)
-
   begin
+    artist_name = CGI::unescape(artist)
     t1 = Thread.new {
       Thread.current[:artist] = api.find_artist(artist_name)
     }
