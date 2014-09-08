@@ -138,7 +138,7 @@ get '/listen/:artist' do |artist|
 
   songs = top_tracks.map.with_index do |song, i|
     song = OpenStruct.new(song)
-    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}").first)
+    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}", per_page: 1).first)
     song = {
       number: i + 1,
       artist: artist.name,
