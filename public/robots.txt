@@ -1,0 +1,5 @@
+# robots.txt for http://goodnot.es
+
+User-agent: *
+
+Disallow: 
