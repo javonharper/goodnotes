@@ -127,7 +127,7 @@ get '/listen/:artist' do |artist|
 
   artist = t1[:artist]
   top_tracks = t2[:tracks].first(NUM_SONGS)
-  similar_artists = t3[:similar]
+  similar_artists = t3[:similar].map {|a| {name: a, escaped_name: CGI::escape(a)}}
 
   @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
   @page_description = 
