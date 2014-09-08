@@ -108,19 +108,23 @@ end
 get '/listen/:artist' do |artist|
   artist_name = CGI::unescape(artist)
 
-  t1 = Thread.new {
-    Thread.current[:artist] = api.find_artist(artist_name)
-  }
+  begin
+    t1 = Thread.new {
+      Thread.current[:artist] = api.find_artist(artist_name)
+    }
 
-  t2 = Thread.new {
-    Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
-  }
+    t2 = Thread.new {
+      Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
+    }
 
-  t3 = Thread.new {
-    Thread.current[:similar] = api.find_similar_artists(artist_name)
-  }
+    t3 = Thread.new {
+      Thread.current[:similar] = api.find_similar_artists(artist_name)
+    }
 
-  [t1, t2, t3].each {|t| t.join}
+    [t1, t2, t3].each {|t| t.join}
+  rescue StandardError => execption
+    raise Sinatra::NotFound
+  end
 
   artist = t1[:artist]
   top_tracks = t2[:tracks].first(NUM_SONGS)
@@ -174,7 +178,7 @@ end
 
 not_found do
   @page_title = 'Goodnot.es - Artist/Band could not be found.'
-  haml :index, locals: {
+  haml :notfound, locals: {
     show_search_more_button: true
   }
 end
