@@ -4,7 +4,7 @@
   }
 %body
   .content
-    = haml :header_more_artists
+    = haml :header, :locals => { show_search_more_button: true}
     %div
       .container
         .songs

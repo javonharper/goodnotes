@@ -4,7 +4,7 @@
   }
 %body
   .content
-    = haml :header
+    = haml :header, :locals => { show_search_more_button: false}
     .container
       .search-wrapper
         %h1.hero
