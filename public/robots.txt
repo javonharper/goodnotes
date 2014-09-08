@@ -3,3 +3,5 @@
 User-agent: *
 
 Disallow: 
+
+Sitemap: http://www.goodnot.es/sitemap.xml
