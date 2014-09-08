@@ -144,13 +144,7 @@ get '/listen/:artist' do |artist|
     }
   end
 
-  template = if artist.name.downcase == 'creed'
-    :creed
-  else
-    :listen
-  end
-
-  haml template, locals: {
+  haml :listen, locals: {
     songs: songs,
     share_url: request.url,
     artist: artist.name,
