@@ -13,3 +13,4 @@ gem 'youtube_search'
 gem 'uglifier', '~> 2.5.1'
 gem 'rspec', '~> 3.1.0'
 gem 'rake', '~> 10.3.2'
+gem "codeclimate-test-reporter", group: :test, require: nil
