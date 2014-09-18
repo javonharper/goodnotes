@@ -4,7 +4,7 @@
   }
 %body
   .content
-    = haml :header_more_artists
+    = haml :header, :locals => { show_search_more_button: true}
     %div
       .container
         .songs
@@ -43,8 +43,8 @@
                 .heading
                   = "Like #{artist}? Check out these similar artists:"
                 - similar_artists.each do |artist|
-                  %a.similar-artist{href: "/listen/#{artist}"} 
-                    = artist
+                  %a.similar-artist{href: "/listen/#{artist[:escaped_name]}"} 
+                    = artist[:name]
     = haml :footer
 
 %script{src: '//cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js'}

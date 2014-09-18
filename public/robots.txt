@@ -1,0 +1,7 @@
+# robots.txt for http://goodnot.es
+
+User-agent: *
+
+Disallow: 
+
+Sitemap: http://www.goodnot.es/sitemap.xml

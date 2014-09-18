@@ -4,7 +4,7 @@
   }
 %body
   .content
-    = haml :header
+    = haml :header, :locals => { show_search_more_button: false}
     .container
       .search-wrapper
         %h1.hero
@@ -22,7 +22,7 @@
 
           %p 
             The goal of Goodnotes is to bring you a 
-            succint preview of any musical artist or band. 
+            succinct preview of any musical artist or band. 
             It presents the 5 most popular songs of an artist,
             queues them up, and plays them for you. 
           %p.bold.center

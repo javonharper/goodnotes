@@ -84,7 +84,9 @@ api = API.new(settings.lastfm)
 
 get '/' do
   @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
-  haml :index
+  haml :index, locals: {
+    show_search_more_button: false
+  }
 end
 
 get '/search' do
@@ -104,25 +106,28 @@ get '/search' do
 end
 
 get '/listen/:artist' do |artist|
-  artist_name = CGI::unescape(artist)
+  begin
+    artist_name = CGI::unescape(artist)
+    t1 = Thread.new {
+      Thread.current[:artist] = api.find_artist(artist_name)
+    }
 
-  t1 = Thread.new {
-    Thread.current[:artist] = api.find_artist(artist_name)
-  }
+    t2 = Thread.new {
+      Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
+    }
 
-  t2 = Thread.new {
-    Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
-  }
+    t3 = Thread.new {
+      Thread.current[:similar] = api.find_similar_artists(artist_name)
+    }
 
-  t3 = Thread.new {
-    Thread.current[:similar] = api.find_similar_artists(artist_name)
-  }
-
-  [t1, t2, t3].each {|t| t.join}
+    [t1, t2, t3].each {|t| t.join}
+  rescue StandardError => execption
+    raise Sinatra::NotFound
+  end
 
   artist = t1[:artist]
   top_tracks = t2[:tracks].first(NUM_SONGS)
-  similar_artists = t3[:similar]
+  similar_artists = t3[:similar].map {|a| {name: a, escaped_name: CGI::escape(a)}}
 
   @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
   @page_description = 
@@ -133,7 +138,7 @@ get '/listen/:artist' do |artist|
 
   songs = top_tracks.map.with_index do |song, i|
     song = OpenStruct.new(song)
-    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}").first)
+    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}", per_page: 1).first)
     song = {
       number: i + 1,
       artist: artist.name,
@@ -144,18 +149,13 @@ get '/listen/:artist' do |artist|
     }
   end
 
-  template = if artist.name.downcase == 'creed'
-    :creed
-  else
-    :listen
-  end
-
-  haml template, locals: {
+  haml :listen, locals: {
     songs: songs,
     share_url: request.url,
     artist: artist.name,
     artist_image_url: artist.image.last['content'],
-    similar_artists: similar_artists
+    similar_artists: similar_artists,
+    show_search_more_button: true
   }
 end
 
@@ -177,5 +177,7 @@ end
 
 not_found do
   @page_title = 'Goodnot.es - Artist/Band could not be found.'
-  haml :notfound
+  haml :notfound, locals: {
+    show_search_more_button: true
+  }
 end
