@@ -28,6 +28,13 @@ App.playSong = (song) ->
   $('.current-song-name').text(App.currentSong['name'])
   App.player.loadVideoById(App.currentSong['media_id'])
 
+indicateSearching = ->
+  $('.search-label').text('Searching...')
+  $icon = $('.search-icon')
+  $icon.removeClass('fa-play')
+  $icon.addClass('fa-spinner')
+  $icon.addClass('fa-spin')
+
 initTypeahead = ->
   artists = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
@@ -57,6 +64,10 @@ initTypeahead = ->
     }
   })
 
+  $('.typeahead').on 'typeahead:selected', (event, suggestion, dataset) =>
+    indicateSearching()
+    $('form').submit()
+
 $(document).ready ->
   initTypeahead()
   App.currentSong = _.first(App.songs)
@@ -66,7 +77,6 @@ $(document).ready ->
     atts = id: "myytplayer"
 
     artist = App.songs[0].artist
-
 
     # !!! EASTER EGG !!!
     # Play 'Shreds' video if they match one of the artists below
@@ -93,13 +103,6 @@ $(document).ready ->
     App.currentSong = _.findWhere(App.songs, media_id: id)
     App.playSong(App.currentSong)
 
-  $('.search-form button').click (event) ->
-    $(event.target).find('.search-label').text('Searching...')
-    $icon = $('.search-icon')
-    $icon.removeClass('fa-play')
-    $icon.addClass('fa-spinner')
-    $icon.addClass('fa-spin')
-
+  $('.search-form button').click indicateSearching
   $('.prev-song').click(App.playPrevSong)
   $('.next-song').click(App.playNextSong)
-
