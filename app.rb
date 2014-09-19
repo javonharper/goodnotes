@@ -106,24 +106,16 @@ get '/search' do
 end
 
 get '/autocomplete/:query' do |query|
-  puts query
-  json [
+  results = settings.lastfm.artist.search({artist: query.strip, limit: 5})
+  artists = results['results']['artistmatches']['artist']
+
+  autocomplete_results = artists.map do |artist|
     {
-      value: 'Joey Bada$$'
-    },
-    {
-      value: 'Chance The Rapper'
-    },
-    {
-      value: 'Rejjie Snow'
-    },
-    {
-      value: 'Childish Gambino'
-    },
-    {
-      value: 'Earl Sweatshirt'
+      value: artist['name']
     }
-  ]
+  end
+
+  json autocomplete_results
 end
 
 get '/listen/:artist' do |artist|
