@@ -28,7 +28,37 @@ App.playSong = (song) ->
   $('.current-song-name').text(App.currentSong['name'])
   App.player.loadVideoById(App.currentSong['media_id'])
 
+initTypeahead = ->
+  artists = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: '/autocomplete/%QUERY'
+  })
+   
+  artists.initialize()
+   
+  $('.typeahead').typeahead(null, {
+    name: 'artists',
+    displayKey: 'value',
+    source: artists.ttAdapter(),
+    templates: {
+      # empty: [
+      #   '<div class="empty-message">',
+      #     'unable to find any Best Picture winners that match the current query',
+      #   '</div>'
+      # ].join('\n'),
+      suggestion: Handlebars.compile(
+        '<div class="autocomplete-suggestion">
+          <strong>
+            {{value}}
+          </strong>
+        </div>'
+      )
+    }
+  })
+
 $(document).ready ->
+  initTypeahead()
   App.currentSong = _.first(App.songs)
 
   if App.currentSong

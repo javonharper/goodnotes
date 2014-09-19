@@ -105,6 +105,27 @@ get '/search' do
   end
 end
 
+get '/autocomplete/:query' do |query|
+  puts query
+  json [
+    {
+      value: 'Joey Bada$$'
+    },
+    {
+      value: 'Chance The Rapper'
+    },
+    {
+      value: 'Rejjie Snow'
+    },
+    {
+      value: 'Childish Gambino'
+    },
+    {
+      value: 'Earl Sweatshirt'
+    }
+  ]
+end
+
 get '/listen/:artist' do |artist|
   num_songs = params['songs']? params['songs'].to_i : NUM_SONGS 
 

@@ -11,7 +11,7 @@
           Explore the best tracks artists have to offer.
         %form.search-form{action: '/search', method: "get"}
           %div
-            %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus'}
+            %input#query{class: 'typeahead', type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus', autocomplete: 'off'}
           %div
             %button 
               %span.search-label Search artists
