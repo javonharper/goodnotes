@@ -106,6 +106,8 @@ get '/search' do
 end
 
 get '/listen/:artist' do |artist|
+  num_songs = params['songs']? params['songs'].to_i : NUM_SONGS 
+
   begin
     artist_name = CGI::unescape(artist)
     t1 = Thread.new {
@@ -113,7 +115,7 @@ get '/listen/:artist' do |artist|
     }
 
     t2 = Thread.new {
-      Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: NUM_SONGS})
+      Thread.current[:tracks] = settings.lastfm.artist.get_top_tracks({artist: artist_name, limit: num_songs})
     }
 
     t3 = Thread.new {
@@ -126,7 +128,7 @@ get '/listen/:artist' do |artist|
   end
 
   artist = t1[:artist]
-  top_tracks = t2[:tracks].first(NUM_SONGS)
+  top_tracks = t2[:tracks].first(num_songs)
   similar_artists = t3[:similar].map {|a| {name: a, escaped_name: CGI::escape(a)}}
 
   @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
