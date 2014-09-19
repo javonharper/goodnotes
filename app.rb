@@ -62,7 +62,7 @@ class API
         artist['name'].downcase == query.downcase
       end
 
-      artist = exact_match or artists.first
+      artist = exact_match || artists.first
       OpenStruct.new(artist)
     end
   end
