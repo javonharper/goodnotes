@@ -34,7 +34,25 @@ $(document).ready ->
   if App.currentSong
     params =  allowScriptAccess: "always"
     atts = id: "myytplayer"
-    swfobject.embedSWF "http://www.youtube.com/v/#{App.songs[0]['media_id']}?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1&color=white&fs=0&modestbranding=1&rel=0",
+
+    artist = App.songs[0].artist
+
+
+    # !!! EASTER EGG !!!
+    # Play 'Shreds' video if they match one of the artists below
+
+    ytId = switch artist
+      when 'Creed' then 'bVswiiI_PmU'
+      when 'Kings of Leon' then 'NOF1FJ7wGhw'
+      when 'Kiss' then 'Kw5oJoUYTb8'
+      when 'Korn' then 'fZOXC_t6dk8'
+      when 'Nickleback' then 'FuGW4_V0sbQ'
+      when 'Yo-Yo Ma' then 'ka-sHA74N40'
+      when 'Metallica' then 'nDUHB_RbtzY'
+      when 'Red Hot Chili Peppers' then 'jdmIiE_LM_I'
+      else App.songs[0]['media_id']
+
+    swfobject.embedSWF "http://www.youtube.com/v/#{ytId}?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1&color=white&fs=0&modestbranding=1&rel=0",
                        "ytapiplayer", "425", "356", "8", null, null, params, atts
 
   $('.song-name').click (event) ->
