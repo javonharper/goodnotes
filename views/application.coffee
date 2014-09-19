@@ -1,13 +1,13 @@
 App = window.App = window.App || {}
 
-ENDED = 0
+VIDEO_ENDED = 0
 
 window.onYouTubePlayerReady = ->
   App.player = document.getElementById('myytplayer')
   App.player.addEventListener('onStateChange', 'onStateChange')
 
 window.onStateChange = (state) ->
-  if state is ENDED
+  if state is VIDEO_ENDED
     App.playNextSong()
 
 App.playNextSong = ->
@@ -29,6 +29,14 @@ App.playSong = (song) ->
   App.player.loadVideoById(App.currentSong['media_id'])
 
 $(document).ready ->
+  App.currentSong = _.first(App.songs)
+
+  if App.currentSong
+    params =  allowScriptAccess: "always"
+    atts = id: "myytplayer"
+    swfobject.embedSWF "http://www.youtube.com/v/#{App.songs[0]['media_id']}?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1&color=white&fs=0&modestbranding=1&rel=0",
+                       "ytapiplayer", "425", "356", "8", null, null, params, atts
+
   $('.song-name').click (event) ->
     $songCard = $(event.target).closest('.song-card')
     source = $songCard.data().mediaSource
