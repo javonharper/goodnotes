@@ -53,17 +53,7 @@ a
 .bold
   font-weight: bold
 
-.call-to-action
-  text-align: center
-  text-decoration: underline
-  font-weight: 1.5em
-
-.listen-now
-  font-weight: bold
-  text-align: center
-  font-size: 1.2em
-
-
+// Header
 .app-name
   color: rgba(255, 255, 255, 0.9)
   font-size: 2em
@@ -72,7 +62,6 @@ a
   &:hover
     text-decoration: none
 
-// Header
 .small
   font-variant: normal
   font-size: 0.5em
@@ -157,6 +146,29 @@ footer
   margin: 0 auto
   margin-bottom: 3em
 
+.about
+  margin: 0 auto
+  padding: 2em
+  border-radius: 5px
+  background: rgba(#232C2F, 0.5)
+  float: none
+
+  h2
+    text-align: center
+
+.call-to-action
+  text-align: center
+  text-decoration: underline
+  font-weight: 1.5em
+
+.listen-now
+  font-weight: bold
+  text-align: center
+  font-size: 1.2em
+
+
+
+
 // Listen page
 .artist-name-header
   font-weight: normal
@@ -210,7 +222,22 @@ footer
 .similar-artist
   display: block
   font-weight: normal
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: top center 
+  height: 5em
+  margin-bottom: 0.5em
+  border: 1px solid rgba(#FFF, 0.5)
 
+  &:hover
+    text-decoration: none
+
+.artist-card
+  padding: 0.5em
+  background-color: rgba(0, 0, 0, 0.1)
+  box-shadow: 0em 2em 1em rgba(0, 0, 0, 0.1)
+
+// Media Controls
 #myytplayer
   width: 100%
 
@@ -222,16 +249,7 @@ footer
     cursor: pointer
     text-decoration: underline
 
-.about
-  margin: 0 auto
-  padding: 2em
-  border-radius: 5px
-  background: rgba(#232C2F, 0.5)
-  float: none
-
-  h2
-    text-align: center
-
+// Search Typeahead 
 .tt-dropdown-menu
   background: rgba(#000, 0.5)
   border-radius: 5px

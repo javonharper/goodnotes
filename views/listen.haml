@@ -43,8 +43,10 @@
                 .heading
                   = "Like #{artist}? Check out these similar artists:"
                 - similar_artists.each do |artist|
-                  %a.similar-artist{href: "/listen/#{artist[:escaped_name]}"} 
-                    = artist[:name]
+                  %a.similar-artist{href: "/listen/#{artist[:escaped_name]}", style: "background-image: url(#{artist[:image_url]})"} 
+                    .artist-card
+                      = artist[:name]
+
     = haml :footer
 
 :javascript

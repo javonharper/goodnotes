@@ -73,10 +73,14 @@ class API
     # Remove first element, since it is just the query.
     results.shift
 
-    selection_pool = results.first(10).map { |r| r['name'] }
+    selection_pool = results.first(10).map do |r|
+      {
+        name: r['name'],
+        image: r['image'].last['content']
+      }
+    end
 
-    selection = selection_pool.shuffle.first(3)
-    selection
+    selection_pool.shuffle.first(select)
   end
 end
 
@@ -105,19 +109,6 @@ get '/search' do
   end
 end
 
-get '/autocomplete/:query' do |query|
-  results = settings.lastfm.artist.search({artist: query.strip, limit: 5})
-  artists = results['results']['artistmatches']['artist']
-
-  autocomplete_results = artists.map do |artist|
-    {
-      value: artist['name']
-    }
-  end
-
-  json autocomplete_results
-end
-
 get '/listen/:artist' do |artist|
   num_songs = params['songs']? params['songs'].to_i : NUM_SONGS 
 
@@ -142,7 +133,11 @@ get '/listen/:artist' do |artist|
 
   artist = t1[:artist]
   top_tracks = t2[:tracks].first(num_songs)
-  similar_artists = t3[:similar].map {|a| {name: a, escaped_name: CGI::escape(a)}}
+  similar_artists = t3[:similar].map {|artist| {
+    name: artist[:name], 
+    escaped_name: CGI::escape(artist[:name]),
+    image_url: artist[:image]
+  }}
 
   @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
   @page_description = 
@@ -174,7 +169,19 @@ get '/listen/:artist' do |artist|
   }
 end
 
-### Scripts
+get '/autocomplete/:query' do |query|
+  results = settings.lastfm.artist.search({artist: query.strip, limit: 5})
+  artists = results['results']['artistmatches']['artist']
+
+  autocomplete_results = artists.map do |artist|
+    {
+      value: artist['name']
+    }
+  end
+
+  json autocomplete_results
+end
+
 get '/application.js' do
   content_type "text/javascript"
   compiled =  coffee :application
