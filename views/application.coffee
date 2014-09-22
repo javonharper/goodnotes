@@ -86,7 +86,7 @@ $(document).ready ->
       when 'Kings of Leon' then 'NOF1FJ7wGhw'
       when 'Kiss' then 'Kw5oJoUYTb8'
       when 'Korn' then 'fZOXC_t6dk8'
-      when 'Nickleback' then 'FuGW4_V0sbQ'
+      when 'Nickelback' then 'FuGW4_V0sbQ'
       when 'Yo-Yo Ma' then 'ka-sHA74N40'
       when 'Metallica' then 'nDUHB_RbtzY'
       when 'Red Hot Chili Peppers' then 'jdmIiE_LM_I'
