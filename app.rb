@@ -41,50 +41,45 @@ configure do
 
   ### Application Configuration
   NUM_SONGS = 5
+  RELATED_ARTIST_POOL = 10
+  RELATED_ARTIST_SELECT = 3
 
 end
 
-class API
-  def initialize(lastfm_client)
-    @lastfm = lastfm_client
-  end
+def find_artist(query)
+  results = settings.lastfm.artist.search({artist: query.strip, limit: 5})
+  matches = results['results']['artistmatches']
 
-  def find_artist(query)
-    results = @lastfm.artist.search({artist: query.strip, limit: 5})
-    matches = results['results']['artistmatches']
+  if matches.empty?
+    nil
+  else
+    artists = [matches['artist']].flatten
 
-    if matches.empty?
-      nil
-    else
-      artists = [matches['artist']].flatten
-
-      exact_match = artists.find do |artist|
-        artist['name'].downcase == query.downcase
-      end
-
-      artist = exact_match || artists.first
-      OpenStruct.new(artist)
-    end
-  end
-
-  def find_similar_artists(query, pool=10, select=3)
-    results = @lastfm.artist.get_similar(artist: query.strip, limit: pool)    
-
-    # Remove first element, since it is just the query.
-    results.shift
-
-    selection_pool = results.first(10).map do |r|
-      {
-        name: r['name'],
-        image: r['image'].last['content']
-      }
+    exact_match = artists.find do |artist|
+      artist['name'].downcase == query.downcase
     end
 
-    selection_pool.shuffle.first(select)
+    artist = exact_match || artists.first
+    OpenStruct.new(artist)
   end
 end
 
-api = API.new(settings.lastfm)
+def find_similar_artists(query, pool=RELATED_ARTIST_POOL, select=RELATED_ARTIST_SELECT)
+  results = settings.lastfm.artist.get_similar(artist: query.strip, limit: pool)    
+
+  # Remove first element, since it is just the query.
+  results.shift
+
+  selection_pool = results.first(pool).map do |r|
+    {
+      name: r['name'],
+      image: r['image'].last['content']
+    }
+  end
+
+  selection_pool.shuffle.first(select)
+end
+
 
 get '/' do
   @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
@@ -100,7 +95,7 @@ get '/search' do
     raise Sinatra::NotFound
   end
 
-  artist = api.find_artist(query)
+  artist = find_artist(query)
 
   if artist.nil? or artist.marshal_dump.empty?
     raise Sinatra::NotFound
@@ -115,7 +110,7 @@ get '/listen/:artist' do |artist|
   begin
     artist_name = CGI::unescape(artist)
     t1 = Thread.new {
-      Thread.current[:artist] = api.find_artist(artist_name)
+      Thread.current[:artist] = find_artist(artist_name)
     }
 
     t2 = Thread.new {
@@ -123,7 +118,7 @@ get '/listen/:artist' do |artist|
     }
 
     t3 = Thread.new {
-      Thread.current[:similar] = api.find_similar_artists(artist_name)
+      Thread.current[:similar] = find_similar_artists(artist_name)
     }
 
     [t1, t2, t3].each {|t| t.join}
@@ -143,21 +138,27 @@ get '/listen/:artist' do |artist|
   @page_description = 
     "
       Listen to the 5 most popular songs by #{artist.name}:
-      #{ top_tracks.map {|s| s['name']}.join(', ') }
+      #{ top_tracks.first(NUM_SONGS).map {|s| s['name']}.join(', ') }
     "
 
-  songs = top_tracks.map.with_index do |song, i|
-    song = OpenStruct.new(song)
-    media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}", per_page: 1).first)
-    song = {
-      number: i + 1,
-      artist: artist.name,
-      name: song.name,
-      media_source: 'youtube',
-      media_id: media_result.video_id,
-      media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}",
-    }
+  media_threads = []
+  top_tracks.each.with_index do |song, i|
+    media_threads << Thread.new do
+      song = OpenStruct.new(song)
+      media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}", per_page: 1).first)
+      Thread.current[:song] = {
+        number: i + 1,
+        artist: artist.name,
+        name: song.name,
+        media_source: 'youtube',
+        media_id: media_result.video_id,
+        media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}",
+      }
+    end
   end
+
+  media_threads.each{ |t| t.join }
+  songs = media_threads.map {|t| t[:song]}
 
   haml :listen, locals: {
     songs: songs,
