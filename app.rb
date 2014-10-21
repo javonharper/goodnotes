@@ -80,6 +80,10 @@ def find_similar_artists(query, pool=RELATED_ARTIST_POOL, select=RELATED_ARTIST_
   selection_pool.shuffle.first(select)
 end
 
+def find_info(query)
+  results = settings.lastfm.artist.get_info(artist:query.strip)
+  results["bio"]["summary"]
+end
 
 get '/' do
   @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
@@ -121,7 +125,11 @@ get '/listen/:artist' do |artist|
       Thread.current[:similar] = find_similar_artists(artist_name)
     }
 
-    [t1, t2, t3].each {|t| t.join}
+    t4 = Thread.new {
+      Thread.current[:info] = find_info(artist_name)
+    }
+
+    [t1, t2, t3, t4].each {|t| t.join}
   rescue StandardError => execption
     raise Sinatra::NotFound
   end
@@ -133,6 +141,7 @@ get '/listen/:artist' do |artist|
     escaped_name: CGI::escape(artist[:name]),
     image_url: artist[:image]
   }}
+  info = t4[:info]
 
   @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
   @page_description = 
@@ -152,7 +161,7 @@ get '/listen/:artist' do |artist|
         name: song.name,
         media_source: 'youtube',
         media_id: media_result.video_id,
-        media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}",
+        media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}"
       }
     end
   end
@@ -165,6 +174,7 @@ get '/listen/:artist' do |artist|
     share_url: request.url,
     artist: artist.name,
     artist_image_url: artist.image.last['content'],
+    info: info,
     similar_artists: similar_artists,
     show_search_more_button: true
   }

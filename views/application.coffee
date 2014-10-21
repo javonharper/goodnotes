@@ -68,8 +68,14 @@ initTypeahead = ->
     indicateSearching()
     $('form').submit()
 
+initPopovers = ->
+  $('.info').popover
+    placement: 'bottom'
+    html: true
+
 $(document).ready ->
   initTypeahead()
+  initPopovers()
   App.currentSong = _.first(App.songs)
 
   if App.currentSong
