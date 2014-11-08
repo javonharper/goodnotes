@@ -32,6 +32,12 @@
                       %div
                         %a.source-link{href: song[:media_url], target: '_blank'}
                           Listen from source »
+              %div.up-next
+                %span.up-next-text
+                  Artist Up Next:
+                %span
+                  %a.artist-name{href: "/listen/#{similar_artists.first[:escaped_name]}"} 
+                    = similar_artists.first[:name]
             .col-md-6
               .controls
                 .current-song
@@ -54,3 +60,4 @@
 :javascript
   window.App = App = window.App || {}
   App.songs = #{songs.to_json} 
+  App.similarArtists = #{similar_artists.to_json}

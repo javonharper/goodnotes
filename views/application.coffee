@@ -10,6 +10,10 @@ window.onStateChange = (state) ->
   if state is VIDEO_ENDED
     App.playNextSong()
 
+  index = _.indexOf(App.songs, App.currentSong) + 1
+  if state is VIDEO_ENDED && _.isEmpty(App.songs[index])
+    App.playNextArtist()
+
 App.playNextSong = ->
   index = _.indexOf(App.songs, App.currentSong) + 1
 
@@ -27,6 +31,10 @@ App.playPrevSong = ->
 App.playSong = (song) ->
   $('.current-song-name').text(App.currentSong['name'])
   App.player.loadVideoById(App.currentSong['media_id'])
+
+App.playNextArtist = () ->
+  artist = _.first(App.similarArtists)
+  window.location.href = "/listen/#{artist.escaped_name}"
 
 indicateSearching = ->
   $('.search-label').text('Searching...')
