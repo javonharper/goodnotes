@@ -8,11 +8,12 @@ window.onYouTubePlayerReady = ->
 
 window.onStateChange = (state) ->
   if state is VIDEO_ENDED
-    App.playNextSong()
+    index = _.indexOf(App.songs, App.currentSong) + 1
 
-  index = _.indexOf(App.songs, App.currentSong) + 1
-  if state is VIDEO_ENDED && _.isEmpty(App.songs[index])
-    App.playNextArtist()
+    if _.isEmpty(App.songs[index])
+      App.playNextArtist()
+    else
+      App.playNextSong()
 
 App.playNextSong = ->
   index = _.indexOf(App.songs, App.currentSong) + 1
