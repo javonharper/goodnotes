@@ -4,7 +4,7 @@ window.onPlayerReady = (event) ->
   event.target.playVideo()
 
 window.onPlayerStateChange = (event) ->
-  if event == YT.PlayerState.ENDED
+  if event.data == YT.PlayerState.ENDED
     index = _.indexOf(App.songs, App.currentSong) + 1
 
     if _.isEmpty(App.songs[index])
@@ -13,13 +13,16 @@ window.onPlayerStateChange = (event) ->
       App.playNextSong()
 
 window.onYouTubeIframeAPIReady = ->
-  App.player = new YT.Player 'player',
-    height: '400',
-    width: '100%',
-    videoId: _.first(App.songs).media_id,
-    events:
-      onReady: window.onPlayerReady,
-      onStateChange: window.onPlayerStateChange
+  song = _.first(App.songs)
+
+  if song
+    App.player = new YT.Player 'player',
+      height: '400',
+      width: '100%',
+      videoId: song['media_id'],
+      events:
+        onReady: window.onPlayerReady,
+        onStateChange: window.onPlayerStateChange
 
 App.playNextSong = ->
   index = _.indexOf(App.songs, App.currentSong) + 1
