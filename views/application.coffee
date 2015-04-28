@@ -1,9 +1,9 @@
 App = window.App = window.App || {}
 
-onPlayerReady = (event) ->
+window.onPlayerReady = (event) ->
   event.target.playVideo()
 
-onPlayerStateChange = (event) ->
+window.onPlayerStateChange = (event) ->
   if event == YT.PlayerState.ENDED
     index = _.indexOf(App.songs, App.currentSong) + 1
 
@@ -18,8 +18,8 @@ window.onYouTubeIframeAPIReady = ->
     width: '100%',
     videoId: _.first(App.songs).media_id,
     events:
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+      onReady: window.onPlayerReady,
+      onStateChange: window.onPlayerStateChange
 
 App.playNextSong = ->
   index = _.indexOf(App.songs, App.currentSong) + 1
