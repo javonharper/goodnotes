@@ -138,8 +138,6 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     xml-simple (1.1.5)
-    yourub (2.0.2)
-      google-api-client (~> 0.7)
 
 PLATFORMS
   ruby
@@ -159,4 +157,3 @@ DEPENDENCIES
   sinatra (~> 1.4.5)
   sinatra-contrib!
   uglifier (~> 2.5.1)
-  yourub (= 2.0.2)
