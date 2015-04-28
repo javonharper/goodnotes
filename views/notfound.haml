@@ -12,7 +12,7 @@
           %div Let's try another.
         %form.search-form{action: '/search', method: "get"}
           %div
-            %input#query{type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus'}
+            %input#query{class: 'typeahead', type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus'}
           %div
             %button 
               %span.search-label Search artists
