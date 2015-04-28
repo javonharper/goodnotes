@@ -86,7 +86,7 @@ def find_info(query)
 end
 
 get '/' do
-  @page_title = "Goodnot.es - Discover the best tracks of any artist or band"
+  @page_title = "Goodnotes.io - Discover the best tracks of any artist or band"
   haml :index, locals: {
     show_search_more_button: false
   }
@@ -143,7 +143,7 @@ get '/listen/:artist' do |artist|
   }}
   info = t4[:info]
 
-  @page_title = "Listen to #{artist.name}'s best songs - Goodnot.es"
+  @page_title = "Listen to #{artist.name}'s best songs - Goodnotes.io"
   @page_description = 
     "
       Listen to the 5 most popular songs by #{artist.name}:
@@ -209,7 +209,7 @@ get '/stylesheets/application.css' do
 end
 
 not_found do
-  @page_title = 'Goodnot.es - Artist/Band could not be found.'
+  @page_title = 'Goodnotes.io - Artist/Band could not be found.'
   haml :notfound, locals: {
     show_search_more_button: true
   }

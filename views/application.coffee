@@ -107,8 +107,12 @@ $(document).ready ->
       when 'Red Hot Chili Peppers' then 'jdmIiE_LM_I'
       else App.songs[0]['media_id']
 
-    swfobject.embedSWF "http://www.youtube.com/v/#{ytId}?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1&color=white&fs=0&modestbranding=1&rel=0",
-                       "ytapiplayer", "425", "356", "8", null, null, params, atts
+    debugger
+
+    html = '<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/M8lc1UVf-VE?autoplay=1&origin=http://example.com" frameborder="0"'
+
+    $('#ytplayer-wrapper').text(html)
+
 
   $('.song-name').click (event) ->
     $songCard = $(event.target).closest('.song-card')

@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra', '~> 1.4.5'
-gem 'sinatra-contrib', '~> 1.4.2'
+gem 'sinatra-contrib', github: 'sinatra/sinatra-contrib'
 gem 'haml', '~> 4.0.5'
 gem 'bootstrap-sass', '~> 3.1.1.1'
 gem 'pry', '~> 0.9.12.6'
