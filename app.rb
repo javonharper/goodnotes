@@ -14,7 +14,7 @@ require 'sinatra/config_file'
 require 'sinatra/reloader' if development?
 require 'tempfile'
 require 'uglifier'
-require 'youtube_search'
+require 'google/api_client'
 
 configure do
   ### Server Configuration
@@ -27,12 +27,17 @@ configure do
   begin
     api_key = settings.LASTFM_API_KEY 
     api_secret = settings.LASTFM_SECRET_KEY
+    youtube_key = settings.YOUTUBE_API_KEY
   rescue
     api_key = ENV['LASTFM_API_KEY']
     api_secret = ENV['LASTFM_SECRET_KEY']
+    youtube_key = ENV['YOUTUBE_API_KEY']
   end
 
   set :lastfm, Lastfm.new(api_key, api_secret)
+  set :google_client, Google::APIClient.new(key: youtube_key, 
+                                            application_name: 'Goodnotes.io')
+  set :youtube, settings.google_client.discovered_api('youtube', 'v3')
 
   Compass.configuration do |config|
     config.project_path = File.dirname(__FILE__)
@@ -154,14 +159,26 @@ get '/listen/:artist' do |artist|
   top_tracks.each.with_index do |song, i|
     media_threads << Thread.new do
       song = OpenStruct.new(song)
-      media_result = OpenStruct.new(YoutubeSearch.search("#{artist.name} #{song.name}", per_page: 1).first)
+
+      settings.google_client.authorization = nil
+      results = settings.google_client.execute!(
+        :api_method => settings.youtube.search.list,
+        :parameters => {
+          :q => "#{artist.name} #{song.name}",
+          :part => 'snippet',
+          :maxResults => 1
+        })
+
+      video_id = results.data.items.first.id.videoId
+
+
       Thread.current[:song] = {
         number: i + 1,
         artist: artist.name,
         name: song.name,
         media_source: 'youtube',
-        media_id: media_result.video_id,
-        media_url: "https://www.youtube.com/watch?v=#{media_result.video_id}"
+        media_id: video_id,
+        media_url: "https://www.youtube.com/watch?v=#{video_id}"
       }
     end
   end

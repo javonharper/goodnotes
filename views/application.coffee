@@ -1,19 +1,25 @@
 App = window.App = window.App || {}
 
-VIDEO_ENDED = 0
+onPlayerReady = (event) ->
+  event.target.playVideo()
 
-window.onYouTubePlayerReady = ->
-  App.player = document.getElementById('myytplayer')
-  App.player.addEventListener('onStateChange', 'onStateChange')
-
-window.onStateChange = (state) ->
-  if state is VIDEO_ENDED
+onPlayerStateChange = (event) ->
+  if event == YT.PlayerState.ENDED
     index = _.indexOf(App.songs, App.currentSong) + 1
 
     if _.isEmpty(App.songs[index])
       App.playNextArtist()
     else
       App.playNextSong()
+
+window.onYouTubeIframeAPIReady = ->
+  App.player = new YT.Player 'player',
+    height: '400',
+    width: '100%',
+    videoId: _.first(App.songs).media_id,
+    events:
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
 
 App.playNextSong = ->
   index = _.indexOf(App.songs, App.currentSong) + 1
@@ -30,8 +36,8 @@ App.playPrevSong = ->
     App.playSong(App.currentSong)
 
 App.playSong = (song) ->
-  $('.current-song-name').text(App.currentSong['name'])
-  App.player.loadVideoById(App.currentSong['media_id'])
+  $('.current-song-name').text(song['name'])
+  App.player.loadVideoById(song['media_id'])
 
 App.playNextArtist = () ->
   artist = _.first(App.similarArtists)
@@ -82,15 +88,13 @@ initPopovers = ->
     placement: 'bottom'
     html: true
 
+
 $(document).ready ->
   initTypeahead()
   initPopovers()
   App.currentSong = _.first(App.songs)
 
   if App.currentSong
-    params =  allowScriptAccess: "always"
-    atts = id: "myytplayer"
-
     artist = App.songs[0].artist
 
     # !!! EASTER EGG !!!
@@ -106,13 +110,6 @@ $(document).ready ->
       when 'Metallica' then 'nDUHB_RbtzY'
       when 'Red Hot Chili Peppers' then 'jdmIiE_LM_I'
       else App.songs[0]['media_id']
-
-    debugger
-
-    html = '<iframe id="ytplayer" type="text/html" width="640" height="390" src="http://www.youtube.com/embed/M8lc1UVf-VE?autoplay=1&origin=http://example.com" frameborder="0"'
-
-    $('#ytplayer-wrapper').text(html)
-
 
   $('.song-name').click (event) ->
     $songCard = $(event.target).closest('.song-card')

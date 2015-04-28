@@ -4,10 +4,10 @@
   <Description>Search the best tracks of any artist or band</Description>
   <Image>favicon.ico</Image>
   <Url type="text/html" 
-       template="http://www.goodnot.es/search?query={searchTerms}"/>
+       template="http://www.goodnotes.io/search?query={searchTerms}"/>
   <AdultContent>false</AdultContent>
   <InputEncoding>UTF-8</InputEncoding>
   <Language>en-us</Language>
   <OutputEncoding>UTF-8</OutputEncoding>
-  <Tags>Music Songs Bands Artists Goodnot.es Goodnotes</Tags>
+  <Tags>Music Songs Bands Artists Goodnotes</Tags>
 </OpenSearchDescription>
