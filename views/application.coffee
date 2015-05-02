@@ -91,7 +91,6 @@ initPopovers = ->
     placement: 'bottom'
     html: true
 
-
 $(document).ready ->
   initTypeahead()
   initPopovers()
