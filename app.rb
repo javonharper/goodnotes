@@ -6,15 +6,19 @@ require 'haml'
 require 'lastfm'
 require "open-uri"
 require 'ostruct'
-require 'pry'
 require 'sass'
 require 'sinatra'
 require 'sinatra/json'
 require 'sinatra/config_file'
-require 'sinatra/reloader' if development?
+require 'rest-client'
 require 'tempfile'
 require 'uglifier'
 require 'google/api_client'
+
+if development?
+  require 'sinatra/reloader'
+  require 'pry'
+end
 
 configure do
   ### Server Configuration
@@ -92,8 +96,22 @@ end
 
 get '/' do
   @page_title = "Goodnotes.io - Discover the best tracks of any artist or band"
+
+  popular = OpenStruct.new(title: 'Popular', source: 'music')
+  recommended = OpenStruct.new(title: 'Recommended', source: 'listentothis')
+  obscure = OpenStruct.new(title: 'Obscure', source: 'listentoobscure')
+
+  category_artists = [popular, recommended, obscure].map do |category|
+    result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category.source}.json"
+    top_artists = JSON.parse(result).first(5)
+    OpenStruct.new(title: category.title, artists: top_artists)
+  end
+
   haml :index, locals: {
-    show_search_more_button: false
+    show_search_more_button: false,
+    popular: category_artists[0],
+    recommended: category_artists[1],
+    obscure: category_artists[2]
   }
 end
 
@@ -222,7 +240,7 @@ get '/application.js' do
 end
 
 get '/stylesheets/application.css' do
-  sass(:custom_bootstrap) << sass(:application)
+  sass(:application)
 end
 
 not_found do

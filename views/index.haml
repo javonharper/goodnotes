@@ -17,25 +17,24 @@
               %span.search-label Search artists
               %i.fa.fa-play.search-icon
       .row
-        .about.col-md-6
-          %h2 About
-
-          %p 
-            The goal of Goodnotes is to bring you a 
-            succinct preview of any musical artist or band. 
-            It presents the 5 most popular songs of an artist,
-            queues them up, and plays them for you. 
-          %p.bold.center
-            Uses include:
-          %p 
-            Friend recommended a band but you're not sure where to start?
-          %p 
-            Going to a show and don't know who the openers are? 
-          %p 
-            Found a cool artist through Shazam/SoundHound and want to hear more?
-          %p.call-to-action
-            Goodnotes can be used for all these and more.
-          %p.listen-now 
-            Get to listenin'!
+        .col-md-4
+          = popular.title
+          - for artist in popular.artists
+            %a{href: artist['goodnotes-url']}
+              %div
+                = artist['artist']
+          
+        .col-md-4
+          = recommended.title
+          - for artist in recommended.artists
+            %a{href: artist['goodnotes-url']}
+              %div
+                = artist['artist']
+        .col-md-4
+          = obscure.title
+          - for artist in obscure.artists
+            %a{href: artist['goodnotes-url']}
+              %div
+                = artist['artist']
 
     = haml :footer

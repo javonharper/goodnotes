@@ -1,0 +1,83 @@
+.artist-name-header
+  font-weight: normal
+  font-size: 1.7em
+
+.artist-name
+  font-weight: bold
+  font-size: 1.8em
+
+.listen-suggestion
+  margin-bottom: 1em 
+  font-size: 1.3em
+
+.songs
+  margin-bottom: 2em
+
+.song-name
+  font-size: 1.3em
+  font-weight: normal
+  &:hover
+    text-decoration: underline
+    cursor: pointer
+
+.number
+  display: inline-block
+  font-size: 3em
+  margin-right: 0.3em
+
+.song-details
+  display: inline-block
+
+.song-card
+  margin-bottom: 1em
+
+.source-link
+  font-size: 0.8em
+
+.current-song
+  font-size: 1.5em
+
+.current-song-name
+  font-weight: normal
+
+//Similar artists
+.similar-artists
+  font-size: 1.5em
+
+  .heading
+    font-weight: bold
+
+.similar-artist
+  color: rgba(255, 255, 255, 0.9)
+  display: block
+  font-weight: normal
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: 50% 15%
+  height: 5em
+  margin-bottom: 0.5em
+  border: 1px solid rgba(#FFF, 0.5)
+  transition: all 200ms ease
+
+  &:hover
+    color: white
+    text-decoration: none
+    border: 1px solid white 
+
+.artist-card
+  padding: 0.5em
+  background-color: rgba(0, 0, 0, 0.2)
+  box-shadow: 0em 2em 1em rgba(0, 0, 0, 0.2)
+
+// Media Controls
+#myytplayer
+  width: 100%
+
+.next-song
+  margin-left: 1em
+
+.next-song, .prev-song
+  &:hover
+    cursor: pointer
+    text-decoration: underline
+
