@@ -52,7 +52,7 @@ configure do
   NUM_SONGS = 5
   RELATED_ARTIST_POOL = 10
   RELATED_ARTIST_SELECT = 3
-
+  ARTISTS_PER_CATEGORY = 5
 end
 
 def find_artist(query)
@@ -103,7 +103,7 @@ get '/' do
 
   category_artists = [popular, recommended, obscure].map do |category|
     result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category.source}.json"
-    top_artists = JSON.parse(result).first(5)
+    top_artists = JSON.parse(result).shuffle.first(ARTISTS_PER_CATEGORY)
     OpenStruct.new(title: category.title, artists: top_artists)
   end
 

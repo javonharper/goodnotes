@@ -2,6 +2,7 @@
   .content::before {
     background-image: url('/img/background.jpg');
   }
+
 %body
   .content
     = haml :header, :locals => { show_search_more_button: false}
@@ -17,23 +18,29 @@
               %span.search-label Search artists
               %i.fa.fa-play.search-icon
       .row
-        .col-md-4
-          = popular.title
+        .artists-of-the-day
+          Artists of the day
+      .row
+        .col-md-4.category
+          .category-title
+            = popular.title
           - for artist in popular.artists
-            %a{href: artist['goodnotes-url']}
+            %a.top-artist{href: artist['goodnotes-url']}
               %div
                 = artist['artist']
           
-        .col-md-4
-          = recommended.title
+        .col-md-4.category
+          .category-title
+            = recommended.title
           - for artist in recommended.artists
-            %a{href: artist['goodnotes-url']}
+            %a.top-artist{href: artist['goodnotes-url']}
               %div
                 = artist['artist']
-        .col-md-4
-          = obscure.title
+        .col-md-4.category
+          .category-title
+            = obscure.title
           - for artist in obscure.artists
-            %a{href: artist['goodnotes-url']}
+            %a.top-artist{href: artist['goodnotes-url']}
               %div
                 = artist['artist']
 
