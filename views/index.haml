@@ -5,11 +5,11 @@
 
 %body
   .content
-    = haml :header, :locals => { show_search_more_button: false}
+    = haml :header, :locals => {show_search_more_button: false}
     .container
       .search-wrapper
         %h1.hero
-          Explore the best tracks artists have to offer.
+          Listen to the best tracks of any artist.
         %form.search-form{action: '/search', method: "get"}
           %div
             %input#query{class: 'typeahead', type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus', autocomplete: 'off'}
@@ -17,31 +17,31 @@
             %button 
               %span.search-label Search artists
               %i.fa.fa-play.search-icon
-      .row
-        .artists-of-the-day
-          Artists of the day
-      .row
-        .col-md-4.category
-          .category-title
-            = popular.title
-          - for artist in popular.artists
-            %a.top-artist{href: artist['goodnotes-url']}
-              %div
-                = artist['artist']
-          
-        .col-md-4.category
-          .category-title
-            = recommended.title
-          - for artist in recommended.artists
-            %a.top-artist{href: artist['goodnotes-url']}
-              %div
-                = artist['artist']
-        .col-md-4.category
-          .category-title
-            = obscure.title
-          - for artist in obscure.artists
-            %a.top-artist{href: artist['goodnotes-url']}
-              %div
-                = artist['artist']
+      -# .row
+      -#   .artists-of-the-day
+      -#     Artists of the day
+      -# .row
+      -#   .col-md-4.category
+      -#     .category-title
+      -#       = popular.title
+      -#     - for artist in popular.artists
+      -#       %a.top-artist{href: artist['goodnotes-url']}
+      -#         %div
+      -#           = artist['artist']
+      -#     
+      -#   .col-md-4.category
+      -#     .category-title
+      -#       = recommended.title
+      -#     - for artist in recommended.artists
+      -#       %a.top-artist{href: artist['goodnotes-url']}
+      -#         %div
+      -#           = artist['artist']
+      -#   .col-md-4.category
+      -#     .category-title
+      -#       = obscure.title
+      -#     - for artist in obscure.artists
+      -#       %a.top-artist{href: artist['goodnotes-url']}
+      -#         %div
+      -#           = artist['artist']
 
     = haml :footer

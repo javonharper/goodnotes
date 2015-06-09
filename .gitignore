@@ -2,6 +2,6 @@
 *.sw?
 *.rbc
 *.sass-cache
-config.yml
+config/config.yml
 vendor/
 .bundle

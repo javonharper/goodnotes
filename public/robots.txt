@@ -1,7 +1,7 @@
-# robots.txt for http://goodnot.es
+# robots.txt for http://goodnotes.io
 
 User-agent: *
 
 Disallow: 
 
-Sitemap: http://www.goodnot.es/sitemap.xml
+Sitemap: http://www.goodnotes.io/sitemap.xml
