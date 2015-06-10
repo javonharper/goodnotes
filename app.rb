@@ -129,10 +129,10 @@ class App < Sinatra::Base
 
     artist = Async::ArtistFinder.new(settings.lastfm, query).run
 
-    if artist.nil? or artist.marshal_dump.empty?
+    if artist.nil?
       raise Sinatra::NotFound
     else
-      redirect to("listen/#{CGI::escape(artist.name)}")
+      redirect to("listen/#{CGI::escape(artist['name'])}")
     end
   end
 

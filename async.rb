@@ -109,7 +109,7 @@ module Async
         api_method: @youtube.search.list,
         parameters: {
           q: "#{@artist_name} #{@song_name}",
-          part: 'snippet',
+          part: 'id',
           maxResults: 1 })
       
       video_id = results.data.items.first.id.videoId
