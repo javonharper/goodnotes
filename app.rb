@@ -50,6 +50,7 @@ class App < Sinatra::Base
   end
 
   get '/' do
+    puts "=== Hit Index ==="
 
     # popular = OpenStruct.new(title: 'Popular', source: 'music')
     # recommended = OpenStruct.new(title: 'Recommended', source: 'listentothis')
@@ -71,6 +72,7 @@ class App < Sinatra::Base
   end
 
   get '/listen/:artist' do |artist_name|
+    puts "=== Hit Listen with artist_name '#{artist_name}'. ==="
     artist_name = CGI::unescape(artist_name)
     num_songs = params['songs']? params['songs'].to_i : NUM_SONGS 
 
@@ -108,6 +110,7 @@ class App < Sinatra::Base
   end
 
   get '/autocomplete/:query' do |query|
+    puts "=== Hit Autocomplete with query '#{query}'. ==="
     results = settings.lastfm.artist.search({artist: query.strip, limit: 5})
     artists = results['results']['artistmatches']['artist']
 
@@ -122,14 +125,17 @@ class App < Sinatra::Base
 
   get '/search' do
     query = params['query'].strip
+    puts "=== Hit Search with query '#{query}'. ==="
 
     if query.empty?
+      puts "=== Search query empty, throwing 404. ==="
       raise Sinatra::NotFound
     end
 
     artist = Async::ArtistFinder.new(settings.lastfm, query).run
 
     if artist.nil?
+      puts "=== Nothing found for artist #{query}, throwing 404. ==="
       raise Sinatra::NotFound
     else
       redirect to("listen/#{CGI::escape(artist['name'])}")
