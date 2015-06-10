@@ -9,6 +9,7 @@ require 'google/api_client'
  
 require 'sinatra/reloader' if development?
 require 'pry' if development?
+require 'better_errors' if development?
 
 require_relative 'async'
 
@@ -18,6 +19,9 @@ class App < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
     also_reload 'async.rb'
+
+    use BetterErrors::Middleware
+    BetterErrors::application_root = __dir__
   end
 
   configure do
