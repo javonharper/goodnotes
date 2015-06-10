@@ -22,7 +22,7 @@ module Async
 
         artist = exact_match || artists.first
 
-        OpenStruct.new(artist)
+        artist
       end
     end
   end
@@ -55,7 +55,11 @@ module Async
       results = @lastfm.artist.get_similar(artist: @artist_name.strip, limit: @pool)    
     
       # Remove first element, since it is just the query.
-      results.shift
+      if results.class == Array
+        results.shift
+      else
+        return []
+      end
     
       selection_pool = results.first(@pool).map do |r|
         {

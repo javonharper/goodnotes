@@ -85,22 +85,22 @@ class App < Sinatra::Base
     similar_artists = similar_artists_future.value
 
     song_futures = top_tracks.map.with_index do |track, i|
-      Async::SongFinder.new(settings.google_client, settings.youtube, artist.name, track['name'], i).future.run
+      Async::SongFinder.new(settings.google_client, settings.youtube, artist['name'], track['name'], i).future.run
     end
 
     songs = song_futures.map(&:value)
 
-    @page_title = "#{artist.name}'s most popular songs - Goodnotes.io"
+    @page_title = "#{artist['name']}'s most popular songs - Goodnotes.io"
     @page_description = 
       "
-        Listen to the 5 most popular songs by #{artist.name}:
+        Listen to the 5 most popular songs by #{artist['name']}:
         #{top_tracks.first(NUM_SONGS).map {|s| s['name']}.join(', ')}
       "
     haml :listen, locals: {
       songs: songs,
       share_url: request.url,
-      artist: artist.name,
-      artist_image_url: artist.image.last['content'],
+      artist: artist['name'],
+      artist_image_url: artist['image'].last['content'],
       info: info,
       similar_artists: similar_artists,
       show_search_more_button: true
