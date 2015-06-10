@@ -8,6 +8,7 @@ module Async
     end
 
     def run
+      puts "=== Finding artist with name '#{@artist_name}'. ==="
       results = @lastfm.artist.search({artist: @artist_name.strip, limit: 5})
       matches = results['results']['artistmatches']
 
@@ -37,6 +38,7 @@ module Async
     end
 
     def run
+      puts "=== Finding top tracks for artist '#{@artist_name}'. ==="
       @lastfm.artist.get_top_tracks({artist: @artist_name, limit: @num_songs})
     end
   end
@@ -52,6 +54,7 @@ module Async
     end
 
     def run
+      puts "=== Finding related artists for '#{@artist_name}'. ==="
       results = @lastfm.artist.get_similar(artist: @artist_name.strip, limit: @pool)    
     
       # Remove first element, since it is just the query.
@@ -87,6 +90,7 @@ module Async
     end
 
     def run
+      puts "=== Finding info for '#{@artist_name}'. ==="
       results = @lastfm.artist.get_info(artist: @artist_name.strip)
       results["bio"]["summary"]
     end
@@ -105,6 +109,7 @@ module Async
     end
 
     def run
+      puts "=== Finding song '#{@song_name}' for artist '#{@artist_name}'. ==="
       results = @google_client.execute!(
         api_method: @youtube.search.list,
         parameters: {
