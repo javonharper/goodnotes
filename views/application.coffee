@@ -67,11 +67,11 @@ initTypeahead = ->
     displayKey: 'value',
     source: artists.ttAdapter(),
     templates: {
-      # empty: [
-      #   '<div class="empty-message">',
-      #     'unable to find any Best Picture winners that match the current query',
-      #   '</div>'
-      # ].join('\n'),
+      empty: [
+        '<div class="empty-message">',
+          'Unable to find any artists that match the current query',
+        '</div>'
+      ].join('\n'),
       suggestion: Handlebars.compile(
         '<div class="autocomplete-suggestion">
           <strong>

@@ -12,16 +12,18 @@
             .col-md-6
               .now-playing
                 .artist-name-header
-                  = "Here are the #{songs.size} most popular songs by"
                   %span.artist-name
-                    = "#{artist}."
+                    = "#{artist}"
                 - unless info.empty?
                   .info-wrapper
                     .info-text
                       = info
 
                 .listen-suggestion
-                  Give them a spin. 
+                  %div
+                    = "Here are their #{songs.size} top songs right now."
+                  %div
+                    Give them a spin.
               %div
                 - songs.each do |song|
                   .song-card{data: {media_id: song[:media_id], media_source: song[:media_source]}}
