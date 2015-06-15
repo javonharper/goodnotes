@@ -92,6 +92,11 @@ initPopovers = ->
     html: true
 
 $(document).ready ->
+  $('.info-text').readmore({
+    collapsedHeight: 50,
+    moreLink: '<a class="btn btn-link" href="#">Expand</a>'
+    lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
+  });
   initTypeahead()
   initPopovers()
   App.currentSong = _.first(App.songs)

@@ -74,6 +74,7 @@ class App < Sinatra::Base
   end
 
   get '/listen/:artist' do |artist_name|
+
     puts "=== Hit Listen with artist_name '#{artist_name}'. ==="
     artist_name = CGI::unescape(artist_name)
     num_songs = params['songs']? params['songs'].to_i : NUM_SONGS 

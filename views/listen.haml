@@ -15,9 +15,10 @@
                   = "Here are the #{songs.size} most popular songs by"
                   %span.artist-name
                     = "#{artist}."
-                  - unless info.empty?
-                    %span.info{"data-container" => "body", "data-content" => info, "data-html" => true, "data-placement" => "bottom", "data-toggle" => "popover", :type => "button" }
-                      %i.fa.fa-info-circle
+                - unless info.empty?
+                  .info-wrapper
+                    .info-text
+                      = info
 
                 .listen-suggestion
                   Give them a spin. 
