@@ -72,10 +72,10 @@ initTypeahead = ->
           'Unable to find any artists that match the current query',
         '</div>'
       ].join('\n'),
-      suggestion: Handlebars.compile(
+      suggestion: _.template(
         '<div class="autocomplete-suggestion">
           <strong>
-            {{value}}
+            <%= value %>
           </strong>
         </div>'
       )
