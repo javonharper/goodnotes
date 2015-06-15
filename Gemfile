@@ -11,6 +11,7 @@ gem 'rake'
 gem 'google-api-client'
 gem 'rest-client'
 gem 'celluloid'
+gem 'dalli'
 
 group :test, :development do
   gem 'pry'

@@ -45,6 +45,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
+    dalli (2.7.4)
     debug_inspector (0.0.2)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
@@ -161,6 +162,7 @@ DEPENDENCIES
   celluloid
   coffee-script
   compass
+  dalli
   google-api-client
   haml
   lastfm
