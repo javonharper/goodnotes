@@ -49,7 +49,7 @@ class App < Sinatra::Base
     NUM_SONGS = 5
     RELATED_ARTIST_POOL = 10
     RELATED_ARTIST_SELECT = 3
-    ARTISTS_PER_CATEGORY = 3
+    ARTISTS_PER_CATEGORY = 6
   end
 
   get '/' do
@@ -71,6 +71,11 @@ class App < Sinatra::Base
         result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category[:source]}.json"
         top_artists = JSON.parse(result).shuffle.first(ARTISTS_PER_CATEGORY).map do |artist|
           artist_result = Async::ArtistFinder.new(settings.lastfm, artist['artist']).run
+
+          if artist_result == nil
+            artist_result = Async::ArtistFinder.new(settings.lastfm, 'American Football').run
+          end
+
           {
             artist_url: url("/listen/#{artist_result['name']}"),
             artist_name: artist_result['name'],

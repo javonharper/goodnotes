@@ -22,9 +22,16 @@
             .col-md-12
               .col-md-12.category-title
                 = category[:title]
-              - for artist in category[:artists]
-                .col-md-4
-                  %a.category-artist{href: artist[:artist_url], style: "background-image: url(#{artist[:image_url]})"} 
-                    .category-artist-card
-                      = artist[:artist_name]
-    = haml :footer
+                .row
+                  - for artist in category[:artists].first(3)
+                    .col-md-4
+                      %a.category-artist{href: artist[:artist_url], style: "background-image: url(#{artist[:image_url]})"} 
+                        .category-artist-card
+                          = artist[:artist_name]
+                .row
+                  - for artist in category[:artists].last(3)
+                    .col-md-4
+                      %a.category-artist{href: artist[:artist_url], style: "background-image: url(#{artist[:image_url]})"} 
+                        .category-artist-card
+                          = artist[:artist_name]
+      = haml :footer
