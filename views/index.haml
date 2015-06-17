@@ -17,31 +17,14 @@
             %button 
               %span.search-label Search artists
               %i.fa.fa-play.search-icon
-      -# .row
-      -#   .artists-of-the-day
-      -#     Artists of the day
-      -# .row
-      -#   .col-md-4.category
-      -#     .category-title
-      -#       = popular.title
-      -#     - for artist in popular.artists
-      -#       %a.top-artist{href: artist['goodnotes-url']}
-      -#         %div
-      -#           = artist['artist']
-      -#     
-      -#   .col-md-4.category
-      -#     .category-title
-      -#       = recommended.title
-      -#     - for artist in recommended.artists
-      -#       %a.top-artist{href: artist['goodnotes-url']}
-      -#         %div
-      -#           = artist['artist']
-      -#   .col-md-4.category
-      -#     .category-title
-      -#       = obscure.title
-      -#     - for artist in obscure.artists
-      -#       %a.top-artist{href: artist['goodnotes-url']}
-      -#         %div
-      -#           = artist['artist']
-
+        - for category in categories
+          .row.category
+            .col-md-12
+              .col-md-12.category-title
+                = category[:title]
+              - for artist in category[:artists]
+                .col-md-4
+                  %a.category-artist{href: artist[:artist_url], style: "background-image: url(#{artist[:image_url]})"} 
+                    .category-artist-card
+                      = artist[:artist_name]
     = haml :footer

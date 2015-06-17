@@ -2,11 +2,12 @@ require 'coffee-script'
 require 'celluloid'
 require 'dalli'
 require 'lastfm'
+require 'google/api_client'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/json'
 require 'sinatra/config_file'
-require 'google/api_client'
+require 'rest-client'
  
 require 'sinatra/reloader' if development?
 require 'pry' if development?
@@ -48,28 +49,44 @@ class App < Sinatra::Base
     NUM_SONGS = 5
     RELATED_ARTIST_POOL = 10
     RELATED_ARTIST_SELECT = 3
-    ARTISTS_PER_CATEGORY = 5
+    ARTISTS_PER_CATEGORY = 3
   end
 
   get '/' do
     puts "=== Hit Index ==="
 
-    # popular = OpenStruct.new(title: 'Popular', source: 'music')
-    # recommended = OpenStruct.new(title: 'Recommended', source: 'listentothis')
-    # obscure = OpenStruct.new(title: 'Obscure', source: 'listentoobscure')
+    popular = {title: 'Popular', source: 'truemusic'}
+    recommended = {title: 'Recommended', source: 'listentothis'}
+    obscure = {title: 'Obscure', source: 'under10k'}
 
-    # category_artists = [popular, recommended, obscure].map do |category|
-    #   result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category.source}.json"
-    #   top_artists = JSON.parse(result).shuffle.first(ARTISTS_PER_CATEGORY)
-    #   OpenStruct.new(title: category.title, artists: top_artists)
-    # end
+    # cached_categories = settings.cache.get(:categories)
+    cached_categories = nil
+    if cached_categories
+      puts "=== Cache hit with fontpage artists. ==="
+      categories = cached_categories
+    else
+      puts "=== Cache miss with listen frontpage artists. ==="
+      categories = [popular, recommended, obscure].map do |category|
+        puts "=== Making request to /r/#{category[:source]}... ==="
+        result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category[:source]}.json"
+        top_artists = JSON.parse(result).shuffle.first(ARTISTS_PER_CATEGORY).map do |artist|
+          artist_result = Async::ArtistFinder.new(settings.lastfm, artist['artist']).run
+          {
+            artist_url: url("/listen/#{artist_result['name']}"),
+            artist_name: artist_result['name'],
+            image_url: artist_result['image'].last['content']
+          }
+        end
+        {title: category[:title], artists: top_artists}
+      end
+
+      settings.cache.set(:categories, categories)
+    end
 
     @page_title = "Goodnotes.io - Discover the best tracks of any artist or band"
     haml :index, locals: {
       show_search_more_button: false,
-      # popular: category_artists[0],
-      # recommended: category_artists[1],
-      # obscure: category_artists[2]
+      categories: categories
     }
   end
 
@@ -100,9 +117,7 @@ class App < Sinatra::Base
         artist = cached_artist
       else
         puts "=== Cache miss with find '#{artist_name}'. ==="
-        artist_future = Async::ArtistFinder.new(settings.lastfm, artist_name).future.run
-        artist = artist_future.value
-
+        artist = Async::ArtistFinder.new(settings.lastfm, artist_name).run
         settings.cache.set('find-' + artist_name, artist)
         puts "=== Cache set with find '#{artist_name}'. ==="
       end
@@ -195,15 +210,3 @@ class App < Sinatra::Base
     }
   end
 end
-
-# require 'bootstrap-sass'
-# require 'uglifier'
-# require 'cgi'
-# require 'compass'
-# require 'haml'
-# require "open-uri"
-# require 'ostruct'
-# require 'sass'
-# require 'sinatra/assetpack'
-# require 'rest-client'
-# require 'tempfile'

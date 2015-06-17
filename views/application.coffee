@@ -86,11 +86,6 @@ initTypeahead = ->
     indicateSearching()
     $('form').submit()
 
-initPopovers = ->
-  $('.info').popover
-    placement: 'bottom'
-    html: true
-
 $(document).ready ->
   $('.info-text').readmore({
     collapsedHeight: 50,
@@ -98,7 +93,6 @@ $(document).ready ->
     lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
   });
   initTypeahead()
-  initPopovers()
   App.currentSong = _.first(App.songs)
 
   if App.currentSong

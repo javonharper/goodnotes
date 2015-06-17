@@ -21,7 +21,7 @@
 
                 .listen-suggestion
                   %div
-                    = "Here are their top #{songs.size} songs right now."
+                    = "Here are #{artist}'s top #{songs.size} songs right now."
                   %div
                     Give them a spin.
               %div
@@ -36,12 +36,13 @@
                       %div
                         %a.source-link{href: song[:media_url], target: '_blank'}
                           Listen from source »
-              %div.up-next
-                %span.up-next-text
-                  Artist Up Next:
-                %span
-                  %a.artist-name{href: "/listen/#{similar_artists.first[:escaped_name]}"} 
-                    = similar_artists.first[:name]
+              - if similar_artists.first
+                %div.up-next
+                  %span.up-next-text
+                    Artist Up Next:
+                  %span
+                    %a.artist-name{href: "/listen/#{similar_artists.first[:escaped_name]}"} 
+                      = similar_artists.first[:name]
             .col-md-6
               .controls
                 .current-song
@@ -51,13 +52,14 @@
                 %i.fa.fa-fast-backward.prev-song
                 %i.fa.fa-fast-forward.next-song
                 #player
-              .similar-artists
-                .heading
-                  = "Like #{artist}? Check out these similar artists"
-                - similar_artists.each do |artist|
-                  %a.similar-artist{href: "/listen/#{artist[:escaped_name]}", style: "background-image: url(#{artist[:image_url]})"} 
-                    .artist-card
-                      = artist[:name]
+              - if similar_artists.first
+                .similar-artists
+                  .heading
+                    Check out these related artists
+                    - similar_artists.each do |artist|
+                      %a.similar-artist{href: "/listen/#{artist[:escaped_name]}", style: "background-image: url(#{artist[:image_url]})"} 
+                        .artist-card
+                          = artist[:name]
 
     = haml :footer
 
