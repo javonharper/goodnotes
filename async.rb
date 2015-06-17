@@ -23,6 +23,12 @@ module Async
 
         artist = exact_match || artists.first
 
+        # Don't accept artist if they don't have an image
+        unless artist['image'].last['content']
+          puts "=== Artist with name '#{@artist_name} doesn't have image. Skipping.. ==="
+          return nil
+        end
+
         artist
       end
     end

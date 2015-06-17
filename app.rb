@@ -29,11 +29,20 @@ class App < Sinatra::Base
   configure do
     config_file 'config/config.yml' 
 
+    set :backup_artists, ['toe', 'american football', 'pretend', 'marquette',
+      'rondonumbanine', 'migos', 'clipping.', 'kilo kish', 'tera melo', 'zach
+      hill', 'hella', 'duck. little brother, duck', 'puscifer', 'the internet',
+      'raury', 'foals', 'foals', 'spooky black', 'two knights', 'tawny peaks', 
+      'the reptilian', 'el ten eleven', 'owls', 'colossal']
+
+    # TODO explain why this has to be done this way or make it better.
     begin
+      # LocalHost
       api_key = settings.LASTFM_API_KEY 
       api_secret = settings.LASTFM_SECRET_KEY
       youtube_key = settings.YOUTUBE_API_KEY
     rescue
+      # Heroku
       api_key = ENV['LASTFM_API_KEY']
       api_secret = ENV['LASTFM_SECRET_KEY']
       youtube_key = ENV['YOUTUBE_API_KEY']
@@ -55,25 +64,27 @@ class App < Sinatra::Base
   get '/' do
     puts "=== Hit Index ==="
 
-    popular = {title: 'Popular', source: 'truemusic'}
-    recommended = {title: 'Recommended', source: 'listentothis'}
-    obscure = {title: 'Obscure', source: 'under10k'}
-
-    # cached_categories = settings.cache.get(:categories)
-    cached_categories = nil
+    cached_categories = settings.cache.get(:categories)
     if cached_categories
       puts "=== Cache hit with fontpage artists. ==="
       categories = cached_categories
     else
+      groups = [
+        {title: 'Popular', source: 'truemusic'},
+        {title: 'Recommended', source: 'albumoftheday'},
+        {title: 'Obscure', source: 'listentothis'}
+      ]
+
       puts "=== Cache miss with listen frontpage artists. ==="
-      categories = [popular, recommended, obscure].map do |category|
+      categories = groups.map do |category|
         puts "=== Making request to /r/#{category[:source]}... ==="
         result = RestClient.get "https://goodnotes-reddit-api.herokuapp.com/r/#{category[:source]}.json"
         top_artists = JSON.parse(result).shuffle.first(ARTISTS_PER_CATEGORY).map do |artist|
-          artist_result = Async::ArtistFinder.new(settings.lastfm, artist['artist']).run
+          artist_result = fetch_artist(artist['artist'])
 
+          # HACK if artist is badly parsed or not popular enough, return a hardcoded artist
           if artist_result == nil
-            artist_result = Async::ArtistFinder.new(settings.lastfm, 'American Football').run
+            artist_result = fetch_artist(settings.backup_artists.sample) 
           end
 
           {
@@ -115,17 +126,7 @@ class App < Sinatra::Base
       tracks_future = Async::TopTracksFinder.new(settings.lastfm, artist_name, num_songs).future.run
       artist_info_future = Async::ArtistInfoFinder.new(settings.lastfm, artist_name).future.run
       similar_artists_future = Async::SimilarArtistsFinder.new(settings.lastfm, artist_name, RELATED_ARTIST_POOL, RELATED_ARTIST_SELECT).future.run
-
-      cached_artist = settings.cache.get('find-' + artist_name)
-      if cached_artist
-        puts "=== Cache hit with find '#{artist_name}'. ==="
-        artist = cached_artist
-      else
-        puts "=== Cache miss with find '#{artist_name}'. ==="
-        artist = Async::ArtistFinder.new(settings.lastfm, artist_name).run
-        settings.cache.set('find-' + artist_name, artist)
-        puts "=== Cache set with find '#{artist_name}'. ==="
-      end
+      artist = fetch_artist(artist_name)
 
       top_tracks = tracks_future.value
       info = artist_info_future.value 
@@ -188,14 +189,12 @@ class App < Sinatra::Base
       raise Sinatra::NotFound
     end
 
-    artist = Async::ArtistFinder.new(settings.lastfm, query).run
+    artist = fetch_artist(query)
 
     if artist.nil?
       puts "=== Nothing found for artist #{query}, throwing 404. ==="
       raise Sinatra::NotFound
     else
-      settings.cache.set('find-' + artist['name'], artist)
-      puts "=== Cache set with find '#{artist['name']}'. ==="
       redirect to("listen/#{CGI::escape(artist['name'])}")
     end
   end
@@ -214,4 +213,21 @@ class App < Sinatra::Base
       show_search_more_button: true
     }
   end
+
+  private
+
+  def fetch_artist(artist_name)
+    cached_artist = settings.cache.get('find-' + artist_name)
+    if cached_artist
+      puts "=== Cache hit with find '#{artist_name}'. ==="
+      cached_artist
+    else
+      puts "=== Cache miss with find '#{artist_name}'. ==="
+      artist = Async::ArtistFinder.new(settings.lastfm, artist_name).run
+      settings.cache.set('find-' + artist_name, artist)
+      puts "=== Cache set with find '#{artist_name}'. ==="
+      artist
+    end
+  end
 end
+
