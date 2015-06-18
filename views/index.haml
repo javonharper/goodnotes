@@ -10,6 +10,8 @@
       .search-wrapper
         %h1.hero
           Listen to the best tracks of any artist.
+        .subtitle
+          Goodnotes finds the 5 most popular songs of an artist and plays them for you.
         %form.search-form{action: '/search', method: "get"}
           %div
             %input#query{class: 'typeahead', type: 'text', name: 'query', placeholder: 'Artist/Band Name', autofocus: 'autofocus', autocomplete: 'off'}
