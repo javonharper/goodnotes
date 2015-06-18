@@ -45,7 +45,7 @@ class App < Sinatra::Base
       api_key = ENV['LASTFM_API_KEY']
       api_secret = ENV['LASTFM_SECRET_KEY']
       youtube_key = ENV['YOUTUBE_API_KEY']
-      cache = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+      set :cache, Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
         {:username => ENV["MEMCACHIER_USERNAME"],
           :password => ENV["MEMCACHIER_PASSWORD"],
           :failover => true,
