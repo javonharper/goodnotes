@@ -36,19 +36,24 @@ class App < Sinatra::Base
       'the reptilian', 'el ten eleven', 'owls', 'colossal']
 
     # TODO explain why this has to be done this way or make it better.
-    begin
-      # LocalHost
+    if development?
       api_key = settings.LASTFM_API_KEY 
       api_secret = settings.LASTFM_SECRET_KEY
       youtube_key = settings.YOUTUBE_API_KEY
-    rescue
-      # Heroku
+      set :cache, Dalli::Client.new
+    else
       api_key = ENV['LASTFM_API_KEY']
       api_secret = ENV['LASTFM_SECRET_KEY']
       youtube_key = ENV['YOUTUBE_API_KEY']
+      cache = Dalli::Client.new((ENV["MEMCACHIER_SERVERS"] || "").split(","),
+        {:username => ENV["MEMCACHIER_USERNAME"],
+          :password => ENV["MEMCACHIER_PASSWORD"],
+          :failover => true,
+          :socket_timeout => 1.5,
+          :socket_failure_delay => 0.2
+      })
     end
 
-    set :cache, Dalli::Client.new
     set :lastfm, Lastfm.new(api_key, api_secret)
     set :google_client, Google::APIClient.new(
       key: youtube_key, 
