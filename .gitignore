@@ -1,7 +1,0 @@
-.DS_STORE
-*.sw?
-*.rbc
-*.sass-cache
-config/config.yml
-vendor/
-.bundle

@@ -1,7 +1,0 @@
-# robots.txt for http://goodnotes.io
-
-User-agent: *
-
-Disallow: 
-
-Sitemap: http://www.goodnotes.io/sitemap.xml
