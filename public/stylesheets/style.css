@@ -26,6 +26,17 @@ input:focus {
   outline: 0;
 }
 
+.button {
+  color: #FFF;
+  background-color: #33C3F0;
+  border: 1px solid #33C3F0;
+  height: 38px;
+  padding: 0 30px;
+  font-size: 11px;
+  text-transform: uppercase;
+  border-radius: 5px;
+}
+
 /* Header */
 header {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
@@ -40,3 +51,7 @@ header {
   letter-spacing: 1px;
 }
 
+/* Index Page */
+.query {
+  margin-bottom: 2em;
+}

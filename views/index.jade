@@ -7,4 +7,6 @@ block content
         h1 Listen to the best tracks of any artist
         p Goodnotes finds the 5 most popular songs of an artist and plays them for you.
 
-        input(type="text", placeholder="Search any musical artist or band")
+        form(action="/search", method="get")
+          input.query(type="text", name="query", autofocus="true", autocomplete="off", placeholder="Search any musical artist or band")
+          button.button Search
