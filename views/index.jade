@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .row
+      .col-md-8.col-md-offset-2
+        h1 Listen to the best tracks of any artist
+        p Goodnotes finds the 5 most popular songs of an artist and plays them for you.
+
+        input(type="text", placeholder="Search any musical artist or band")
