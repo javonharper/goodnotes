@@ -3,6 +3,7 @@
 body {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-color: #EAF1F5;
 }
 
 a {
@@ -39,9 +40,10 @@ input:focus {
 
 /* Header */
 header {
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   padding-top: 1em;
   padding-bottom: 1em;
+  background-color: white;
 }
 
 .logo {
