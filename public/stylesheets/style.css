@@ -56,4 +56,9 @@ header {
   margin-bottom: 2em;
 }
 
-/* Index Page */
+/* Listen Page */
+.backdrop:before {
+  height: 30em;
+  background-repeat: none;
+  background-size: cover;
+}

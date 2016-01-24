@@ -37,9 +37,10 @@ router.get('/listen/:artist', function(req, res, next) {
     var topTracks = response[1];
 
     res.render('listen', {
-      title: artist, 
+      title: artist + "'s most popular songs - Goodnotes.io",
       artist: artist, 
       summary: info.summary,
+      imageUrl: info.image,
       tags: info.tags,
       tracks: topTracks,
       similar_artists: info.similar_artists
