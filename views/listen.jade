@@ -15,7 +15,7 @@ block content
         .row
           .col-md-12
             h1.listen-page-header
-              div Here are the top tracks by #{artist}.
+              div Here are the top 5 tracks by #{artist}.
               small Give them a spin.
         .row
           .col-md-6
@@ -25,12 +25,14 @@ block content
                   span.play-track
                   span= track.name
           .col-md-6
-            iframe.video(height="315", src="https://www.youtube.com/embed/6p6PcFFUm5I", frameborder="0", allowfullscreen="true")
+            .play-prev-track Prev Track
+            .play-next-track Next Track
+            #player
     .row
       .col-md-12
         .row
           .col-md-12
-            h2.similar-artists-header Like #{artist}? Check out these similar artists too.
+            h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
         .row
           each artist in similarArtists
             .col-md-4
@@ -40,7 +42,9 @@ block content
 
 
         
-  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js")
+  script(type='text/javascript').
+    Goodnotes.Player.tracks = !{JSON.stringify(tracks)} 
+
   script(type='text/javascript').
     $(function() {
       $('.artist-summary p').readmore({
@@ -49,3 +53,5 @@ block content
         lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
       });
     });
+
+

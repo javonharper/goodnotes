@@ -1,12 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var LastfmAPI = require('lastfmapi');
+var Lastfm = require('lastfmapi');
+var Youtube = require('youtube-api');
 var Q = require('q');
 var _ = require('underscore');
 
-var lastfm = new LastfmAPI({
+var lastfm = new Lastfm({
   'api_key' : '5a1964f7a064939dbc6a5fce2570f3f1',
   'secret' : '6159650243f21ae79d0fd1f2e9f7f886'
+});
+
+var oauth = Youtube.authenticate({
+  type: 'key',
+  key: 'AIzaSyCbw0MmNUhgTmRczQOjX-w0wdxWD_eCxz8'
 });
 
 router.get('/', function(req, res, next) {
@@ -37,15 +43,20 @@ router.get('/listen/:artist', function(req, res, next) {
     var info = response[0];
     var topTracks = response[1];
 
-    res.render('listen', {
-      title: artist + "'s most popular songs - Goodnotes.io",
-      artist: artist, 
-      summary: info.summary,
-      imageUrl: info.image,
-      tags: info.tags,
-      tracks: topTracks,
-      similarArtists: info.similarArtists
-    });
+    Q.all(topTracks.map(function(track) {
+      return getTrackVideo(artist, track.name);
+    })).then(function(videoResponse) {
+      res.render('listen', {
+        title: artist + "'s most popular songs - Goodnotes.io",
+        artist: artist, 
+        summary: info.summary,
+        imageUrl: info.image,
+        tags: info.tags,
+        tracks: videoResponse,
+        similarArtists: info.similarArtists
+      });
+    })
+
   });
 });
 
@@ -70,7 +81,7 @@ var getInfo = function(artist) {
 
   lastfm.artist.getInfo({artist: artist}, function(err, info) {
     if (err) {
-      deferred.reject();
+      deferred.reject(err);
     }
 
     deferred.resolve({
@@ -92,5 +103,29 @@ var getInfo = function(artist) {
 
   return deferred.promise;
 };
+
+var getTrackVideo = function(artist, track) {
+  var deferred = Q.defer();
+
+  Youtube.search.list({
+    q: artist + ' ' + track,
+    part: 'id',
+    maxResults: 1
+  }, function(err, result) {
+    if (err) {
+      deferred.reject();
+    }
+
+    var videoId = _.first(result.items).id.videoId;
+
+    deferred.resolve({
+      artist: artist,
+      name: track,
+      videoId: videoId
+    });
+  });
+
+  return deferred.promise;
+}
 
 module.exports = router;
