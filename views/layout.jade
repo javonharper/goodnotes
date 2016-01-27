@@ -4,7 +4,8 @@ html
     title= title
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
     link(rel="stylesheet", href="/stylesheets/style.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js")
+    link(rel="stylesheet", href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
+    script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js")
 
   body
     header
@@ -14,3 +15,10 @@ html
             a.logo(href="http://goodnotes.io") Goodnotes
       
     block content
+
+    footer
+      .container
+        .row
+          .col-md-12
+            div. 
+              Made with #[.ion-ios-heart.luv] in Philly by #[a(href="http://javonharper.com") Javon Harper].

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var LastfmAPI = require('lastfmapi');
 var Q = require('q');
+var _ = require('underscore');
 
 var lastfm = new LastfmAPI({
   'api_key' : '5a1964f7a064939dbc6a5fce2570f3f1',
@@ -43,7 +44,7 @@ router.get('/listen/:artist', function(req, res, next) {
       imageUrl: info.image,
       tags: info.tags,
       tracks: topTracks,
-      similar_artists: info.similar_artists
+      similarArtists: info.similarArtists
     });
   });
 });
@@ -75,13 +76,15 @@ var getInfo = function(artist) {
     deferred.resolve({
       summary: info.bio.summary,
       image: info.image[4]['#text'],
-      similar_artists: info.similar.artist.map(function(artist) {
+      similarArtists: _.first(info.similar.artist, 3).map(function(artist) {
         return {
           name: artist.name,
-          image: artist.image[4]['#text']
+          imageUrl: artist.image[4]['#text'],
+          goodnotesUrl: "/listen/" + artist.name
+
         }
       }),
-      tags: info.tags.tag.map(function(tag){ 
+      tags: _.first(info.tags.tag, 3).map(function(tag){ 
         return tag.name 
       })
     });

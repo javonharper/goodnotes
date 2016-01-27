@@ -15,6 +15,7 @@
     "morgan": "~1.6.1",
     "q": "^1.4.1",
     "serve-favicon": "~2.3.0",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "youtube-api": "^1.4.0"
   }
 }

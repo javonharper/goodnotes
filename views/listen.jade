@@ -1,15 +1,51 @@
 extends layout
 
 block content
-  script(type='text/javascript').
-    $(function() {
-      $('.backdrop').css({
-        "background-image:before": "url(#{imageUrl})"
-      });
-    });
-
   .container
     .row
-      .backdrop.col-md-12
+      .col-md-4
+        img.artist-image(src="#{imageUrl}")
+        div.artist-name= artist
+        ul.artist-tags
+          each tag in tags
+            li.artist-tag= tag
+        div.artist-summary
+          p= summary
+      .col-md-8
+        .row
+          .col-md-12
+            h1.listen-page-header
+              div Here are the top tracks by #{artist}.
+              small Give them a spin.
+        .row
+          .col-md-6
+            ol.track-list
+              each track in tracks
+                li.track-list-item
+                  span.play-track
+                  span= track.name
+          .col-md-6
+            iframe.video(height="315", src="https://www.youtube.com/embed/6p6PcFFUm5I", frameborder="0", allowfullscreen="true")
+    .row
+      .col-md-12
+        .row
+          .col-md-12
+            h2.similar-artists-header Like #{artist}? Check out these similar artists too.
+        .row
+          each artist in similarArtists
+            .col-md-4
+              a(href=artist.goodnotesUrl)
+                div.similar-artist-name= artist.name
+                div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
 
 
+        
+  script(type="text/javascript", src="https://cdnjs.cloudflare.com/ajax/libs/Readmore.js/2.1.0/readmore.min.js")
+  script(type='text/javascript').
+    $(function() {
+      $('.artist-summary p').readmore({
+        collapsedHeight: 100,
+        moreLink: '<a class="btn btn-link" href="#">Expand</a>',
+        lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
+      });
+    });
