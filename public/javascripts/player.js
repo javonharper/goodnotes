@@ -52,7 +52,12 @@ Goodnotes.Player = Goodnotes.Player || {};
     };
 
     function onPlayerStateChange(event) {
-      console.log('onPlayerStateChange');
+      if (event.data === YT.PlayerState.ENDED) {
+        var index = _.indexOf(tracks, currentTrack) + 1;
+        if (!_.isEmpty(tracks[index])) {
+          playNextTrack();
+        }
+      }
     };
   });
 })();
