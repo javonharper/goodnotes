@@ -134,6 +134,9 @@ footer {
   padding-bottom: 0.5em
 }
 
+.track-status {
+  width: 1em;
+}
 .track-name {
   padding-left: 0.5em;
 }

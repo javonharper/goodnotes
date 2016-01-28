@@ -29,6 +29,10 @@ Goodnotes.Player = Goodnotes.Player || {};
     };
 
     function onPlayClicked(event) {
+      $('.track-status').addClass('ion-play');
+      $('.track-status').removeClass('ion-volume-high');
+      $(event.target).closest('.track-status').addClass('ion-volume-high');
+
       var videoId = $(event.target).closest('.play-track').data().videoId;
       currentTrack = _.findWhere(tracks, {videoId: videoId});
       playTrack(currentTrack);

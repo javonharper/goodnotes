@@ -22,7 +22,7 @@ block content
             ol.track-list
               each track in tracks
                 li.track-list-item.play-track(data-video-id=track.videoId)
-                  span
+                  span.track-status.ion-play
                     span.track-name= track.name
           .col-md-6
             .play-prev-track Prev Track
