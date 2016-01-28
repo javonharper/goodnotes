@@ -29,7 +29,7 @@ Goodnotes.Player = Goodnotes.Player || {};
     };
 
     function onPlayClicked(event) {
-      var videoId = $(event.target).data().videoId;
+      var videoId = $(event.target).closest('.play-track').data().videoId;
       currentTrack = _.findWhere(tracks, {videoId: videoId});
       playTrack(currentTrack);
     };

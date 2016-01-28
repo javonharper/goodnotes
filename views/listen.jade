@@ -21,8 +21,9 @@ block content
           .col-md-6
             ol.track-list
               each track in tracks
-                li.track-list-item
-                  span.play-track(data-video-id=track.videoId)= track.name
+                li.track-list-item.play-track(data-video-id=track.videoId)
+                  span
+                    span.track-name= track.name
           .col-md-6
             .play-prev-track Prev Track
             .play-next-track Next Track
