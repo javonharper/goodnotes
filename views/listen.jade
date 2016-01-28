@@ -22,8 +22,7 @@ block content
             ol.track-list
               each track in tracks
                 li.track-list-item
-                  span.play-track
-                  span= track.name
+                  span.play-track(data-video-id=track.videoId)= track.name
           .col-md-6
             .play-prev-track Prev Track
             .play-next-track Next Track
@@ -53,5 +52,3 @@ block content
         lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
       });
     });
-
-

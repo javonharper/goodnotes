@@ -11,6 +11,7 @@ Goodnotes.Player = Goodnotes.Player || {};
 
     $('.play-prev-track').on('click', playPrevTrack);
     $('.play-next-track').on('click', playNextTrack);
+    $('.play-track').on('click', onPlayClicked);
 
     window.onYouTubeIframeAPIReady = function() {
       var track = _.first(tracks);
@@ -25,6 +26,12 @@ Goodnotes.Player = Goodnotes.Player || {};
             onStateChange: onPlayerStateChange
           }
       });
+    };
+
+    function onPlayClicked(event) {
+      var videoId = $(event.target).data().videoId;
+      currentTrack = _.findWhere(tracks, {videoId: videoId});
+      playTrack(currentTrack);
     };
 
     function playNextTrack() {
