@@ -8,7 +8,9 @@ var lastfm = new Lastfm({
 });
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Goodnotes' });
+  res.render('index', { 
+    title: 'Listen to the best tracks of any artist - Goodnotes.io'
+  });
 });
 
 router.get('/search', function(req, res, next) {

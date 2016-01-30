@@ -75,6 +75,10 @@ footer {
   margin-bottom: 2em;
 }
 
+.twitter-typeahead {
+  width: 100%;
+}
+
 /* Listen Page */
 
 .listen-page-header {
