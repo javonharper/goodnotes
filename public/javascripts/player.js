@@ -26,36 +26,39 @@ Goodnotes.Player = Goodnotes.Player || {};
             onStateChange: onPlayerStateChange
           }
       });
+
+      currentTrack = track;
+      playTrack(track);
     };
 
     function onPlayClicked(event) {
-      $('.track-status').addClass('ion-play');
-      $('.track-status').removeClass('ion-volume-high');
-      $(event.target).closest('.track-status').addClass('ion-volume-high');
-
       var videoId = $(event.target).closest('.play-track').data().videoId;
-      currentTrack = _.findWhere(tracks, {videoId: videoId});
-      playTrack(currentTrack);
+      playTrack(_.findWhere(tracks, {videoId: videoId}));
     };
 
     function playNextTrack() {
       var index = _.indexOf(tracks, currentTrack) + 1;
       if (tracks[index]) {
-        currentTrack = tracks[index];
-        playTrack(currentTrack);
+        playTrack(tracks[index]);
       }
     };
 
     function playPrevTrack() {
       var index = _.indexOf(tracks, currentTrack) - 1;
       if (tracks[index]) {
-        currentTrack = tracks[index];
-        playTrack(currentTrack);
+        playTrack(tracks[index]);
       }
     };
 
     function playTrack(track) {
-      Player.__player__.loadVideoById(track.videoId);
+      $('.track-status').addClass('ion-play');
+      $('.track-status').removeClass('ion-volume-high');
+      $('*[data-video-id='+ track.videoId+']').find('.track-status').addClass('ion-volume-high');
+
+      if (track !== currentTrack) {
+        Player.__player__.loadVideoById(track.videoId);
+        currentTrack = track;
+      }
     };
 
     function onPlayerReady(event) {
