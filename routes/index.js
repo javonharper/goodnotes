@@ -24,5 +24,16 @@ router.get('/search', function(req, res, next) {
   });
 });
 
+router.get('/autocomplete/:query', function(req, res, next) {
+  lastfm.artist.search({artist: req.params.query, limit: 3}, function(err, artistResults) {
+    if (err) {
+      handleError
+    }
+
+    res.send(artistResults.artistmatches.artist.map(function(artist) { 
+      return {value: artist.name} 
+    }));
+  });
+});
 
 module.exports = router;

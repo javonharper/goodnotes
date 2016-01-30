@@ -34,6 +34,7 @@ router.get('/:artist', function(req, res, next) {
         title: artist + "'s most popular songs - Goodnotes.io",
         artist: artist, 
         summary: info.summary,
+        emptySummary: info.summary.indexOf("<") === 1,
         imageUrl: info.image,
         tags: info.tags,
         tracks: videoResponse,
@@ -70,7 +71,7 @@ var getInfo = function(artist) {
     deferred.resolve({
       summary: info.bio.summary,
       image: info.image[4]['#text'],
-      similarArtists: _.first(info.similar.artist, 3).map(function(artist) {
+      similarArtists: _.first(_.shuffle(info.similar.artist), 3).map(function(artist) {
         return {
           name: artist.name,
           imageUrl: artist.image[4]['#text'],

@@ -9,8 +9,9 @@ block content
         ul.artist-tags
           each tag in tags
             li.artist-tag= tag
-        div.artist-summary
-          p!= summary
+        unless emptySummary
+          div.artist-summary
+            p!= summary
       .col-md-8
         .row
           .col-md-12
@@ -30,18 +31,27 @@ block content
             #player
     .row
       .col-md-12
-        .row
-          .col-md-12
-            h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
-        .row
-          each artist in similarArtists
-            .col-md-4
-              a(href=artist.goodnotesUrl)
-                div.similar-artist-name= artist.name
-                div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
+        if similarArtists.length
+          .row
+            .col-md-12
+              h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
+          .row
+            each artist in similarArtists
+              .col-md-4
+                a(href=artist.goodnotesUrl)
+                  div.similar-artist-name= artist.name
+                  div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
+        else
+          .row
+            .col-md-12
+              h2.similar-artists-header There are no artists related to #{artist}.
+              h3 Nope, not even one.
+              small They are truly original.
 
 
         
+  script(type="text/javascript", src="/javascripts/player.js")
+
   script(type='text/javascript').
     Goodnotes.Player.tracks = !{JSON.stringify(tracks)} 
 
