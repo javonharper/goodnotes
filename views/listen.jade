@@ -1,55 +1,55 @@
 extends layout
 
 block content
-  .container
-    .row
-      .col-md-4
-        img.artist-image(src="#{imageUrl}")
-        div.artist-name= artist
-        ul.artist-tags
-          each tag in tags
-            li.artist-tag= tag
-        unless emptySummary
-          div.artist-summary
-            p!= summary
-      .col-md-8
-        .row
-          .col-md-12
-            h1.listen-page-header
-              div Here are the top 5 tracks by #{artist}.
-              small Give them a spin.
-        .row
-          .col-md-6
-            ol.track-list
-              each track in tracks
-                li.track-list-item.play-track(data-video-id=track.videoId)
-                  span.track-status.ion-play
-                    span.track-name= track.name
-          .col-md-6
-            .play-prev-track Prev Track
-            .play-next-track Next Track
-            #player
-    .row
-      .col-md-12
-        if similarArtists.length
-          .row
-            .col-md-12
-              h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
-          .row
-            each artist in similarArtists
-              .col-md-4
-                a(href=artist.goodnotesUrl)
-                  div.similar-artist-name= artist.name
-                  div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
-        else
-          .row
-            .col-md-12
-              h2.similar-artists-header There are no artists like #{artist}.
-              h3 Nope, not even one.
-              small They are truly original.
+  main
+    .container.listen-header
+      .row.artist-description
+        .col-md-6
+          div.artist-name= artist
+          ul.artist-tags
+            each tag in tags
+              li.artist-tag= tag
+          unless emptySummary
+            div.artist-summary
+              p!= summary
 
+    .container.player-section
+      .row
+        .col-md-12
+          h1.player-header
+            div Here are the top 5 tracks by #{artist}.
+            small Give them a spin.
+      .row
+        .col-md-4
+          ol.track-list
+            each track in tracks
+              li.track-list-item.play-track(data-video-id=track.videoId)
+                span.track-status.ion-play
+                  span.track-name= track.name
+        .col-md-8
+          #player
+          .play-prev-track.ion-skip-backward
+          .play-next-track.ion-skip-forward 
+    .container.similar-artists-section
+      .row
+        .col-md-12
+          if similarArtists.length
+            .row
+              .col-md-12
+                h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
+            .row
+              each artist in similarArtists
+                .col-md-4
+                  a(href=artist.goodnotesUrl)
+                    div.similar-artist-name= artist.name
+                    div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
+          else
+            .row
+              .col-md-12
+                h2.similar-artists-header There are no artists like #{artist}.
+                h3 Nope, not even one.
+                small They are truly original.
 
-        
   script(type="text/javascript", src="/javascripts/player.js")
 
   script(type='text/javascript').
@@ -58,7 +58,7 @@ block content
   script(type='text/javascript').
     $(function() {
       $('.artist-summary p').readmore({
-        collapsedHeight: 100,
+        collapsedHeight: 120,
         moreLink: '<a class="btn btn-link" href="#">Expand</a>',
         lessLink: '<a class="btn btn-link" href="#">Collapse</a>'
       });

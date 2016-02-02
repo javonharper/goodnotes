@@ -4,15 +4,14 @@ body {
   font-family: "Nunito", Helvetica, Arial, sans-serif;
   font-size: 18px;
   -webkit-font-smoothing: antialiased;
-  background-color: white;
 }
 
 a {
-  color: #555;
+  color: white;
 }
 
 a:hover, a:active {
-  color: #111;
+  color: #e9e9e9;
   text-decoration: none;
 }
 
@@ -39,13 +38,32 @@ input:focus {
   border-radius: 5px;
 }
 
+/* .bg-panel { */
+/*   width: 100%; */
+/* } */
+/*  */
+/* .bg-wrapper { */
+/*   background: linear-gradient(to bottom, black, white); */
+/*   height: 100%; */
+/*   position: absolute; */
+/*   /* top: -7em; */ */
+/*   width: 100%; */
+/*   z-index: -20; */
+/* } */
+/*  */
+/* .artist-image { */
+/*   width: 100%; */
+/*   -webkit-filter: blur(2px); */
+/*   opacity: 0.6; */
+/* } */
+
 /* Header */
 header {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
   padding-top: 1em;
   padding-bottom: 1em;
-  background-color: white;
   margin-bottom: 1em;
+  background: rgba(255, 255, 255, 0.2)
 }
 
 .logo {
@@ -53,6 +71,7 @@ header {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: white;
 }
 
 /* Footer */
@@ -62,7 +81,18 @@ footer {
   background-color: white;
   margin-top: 1em;
   text-align: right;
+  color: #666;
 }
+
+footer a {
+  color: #333;
+}
+
+footer a:hover, a:active {
+  color: #888;
+  text-decoration: none;
+}
+
 
 .luv {
   color: #CF544F;
@@ -80,20 +110,13 @@ footer {
 }
 
 /* Listen Page */
-
-.listen-page-header {
-  margin-top: 0;
-  margin-bottom: 1em;
-}
-
-.artist-image {
-  width: 100%;
-  border-radius: 5px;
+.listen-header {
+  color: white;
+  margin-bottom: 2em;
 }
 
 .artist-name {
-  text-align: center;
-  font-size: 1.3em;
+  font-size: 1.5em;
   text-transform: uppercase;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -101,16 +124,17 @@ footer {
 
 .artist-tags {
   list-style: none;
+  padding-left: 0;
 }
 
 .artist-tag {
   text-transform: capitalize;
   display: inline-block;
-  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 .artist-tag:after {
-  content: ',';
+  content: ' ·';
 }
 
 .artist-tag:last-child:after {
@@ -119,6 +143,7 @@ footer {
 
 .artist-summary {
   font-size: 0.8em;
+  white-space: pre-wrap;
 }
 
 .artist-summary p {
@@ -126,28 +151,60 @@ footer {
   -webkit-transition: all 200ms;
 }
 
-.btn.btn-link {
-  text-align: center;
+.artist-summary p a:last-child {
   display: block;
+}
+
+.artist-description {
+  margin-top: 15em;
+}
+
+.btn.btn-link {
+  padding: 0;
+  color: white;
+}
+
+/* Listen Page Player */
+.player-section {
+  background-color: white; 
+  border-radius: 6px;
+  padding: 1em;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1em;
+}
+
+.player-header {
+  margin-top: 0;
+  margin-bottom: 1em;
 }
 
 .track-list-item {
   margin-bottom: 1em;
-  font-size: 1.3em;
-  border-bottom: 1px solid #e7e7e7;
+  font-size: 1.0em;
   padding-bottom: 0.5em
 }
 
 .track-status {
-  width: 1em;
+  width: 1.5em;
 }
 .track-name {
-  padding-left: 0.5em;
+  padding-left: 0.7em;
 }
 
-.video {
+#player {
   width: 100%;
-  border-radius: 5px;
+}
+
+/* Similar artist */
+.similar-artist-section {
+  color: #333;
+}
+
+.similar-artist-name {
+  color: #333;
+}
+
+.similar-artists-header {
 }
 
 .similar-artist-image {
