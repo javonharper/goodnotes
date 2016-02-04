@@ -71,11 +71,10 @@ block content
   script(type="text/javascript").
     $(function() {
       var adjustBackground = function () {
-        console.log('helloo')
         $('.bg-wrapper').height($(document.body).height());
       };
 
       adjustBackground();
-      $(window).resize(adjustBackground)
+      $(window).resize(adjustBackground);
     });
 
