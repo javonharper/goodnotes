@@ -184,7 +184,7 @@ footer a:hover, a:active {
   background-color: white; 
   border-radius: 6px;
   padding: 1em;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   margin-bottom: 1em;
 }
 
@@ -196,7 +196,17 @@ footer a:hover, a:active {
 .track-list-item {
   margin-bottom: 1em;
   font-size: 1.0em;
-  padding-bottom: 0.5em
+  padding: 0.5em;
+  border-radius: 5px;
+  background-color: #E8F1F5;
+}
+
+.track-list-item.active {
+  background-color: #CFD7DA;
+}
+
+.track-list-item:hover {
+  cursor: pointer;
 }
 
 .track-status {
@@ -206,8 +216,31 @@ footer a:hover, a:active {
   padding-left: 0.7em;
 }
 
+.track-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 #player {
   width: 100%;
+}
+
+.player-controls {
+  margin-bottom: 1em;
+}
+/* #D6EEF9 */
+
+.next-track {
+  float: right;
+}
+
+.prev-track {
+}
+
+.control-text {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 /* Similar artist */

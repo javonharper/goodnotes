@@ -28,10 +28,14 @@ Goodnotes.Player = Goodnotes.Player || {};
       });
 
       currentTrack = track;
+      $('.track-list-item').first().addClass('active');
       playTrack(track);
     };
 
     function onPlayClicked(event) {
+      $('.track-list-item.active').removeClass('active');
+      $(event.target).closest('.track-list-item').addClass('active');
+
       var videoId = $(event.target).closest('.play-track').data().videoId;
       playTrack(_.findWhere(tracks, {videoId: videoId}));
     };

@@ -25,6 +25,13 @@ block content
             small Give them a spin.
       .row
         .col-md-4
+          .player-controls
+            button.prev-track.button.play-prev-track
+              span.ion-skip-backward 
+              span.control-text Previous Track
+            button.next-track.button.play-next-track
+              span.control-text Next Track
+              span.ion-skip-forward  
           ol.track-list
             each track in tracks
               li.track-list-item.play-track(data-video-id=track.videoId)
@@ -32,8 +39,6 @@ block content
                   span.track-name= track.name
         .col-md-8
           #player
-          .play-prev-track.ion-skip-backward
-          .play-next-track.ion-skip-forward 
     .container.similar-artists-section
       .row
         .col-md-12
