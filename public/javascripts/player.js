@@ -28,14 +28,10 @@ Goodnotes.Player = Goodnotes.Player || {};
       });
 
       currentTrack = track;
-      $('.track-list-item').first().addClass('active');
       playTrack(track);
     };
 
     function onPlayClicked(event) {
-      $('.track-list-item.active').removeClass('active');
-      $(event.target).closest('.track-list-item').addClass('active');
-
       var videoId = $(event.target).closest('.play-track').data().videoId;
       playTrack(_.findWhere(tracks, {videoId: videoId}));
     };
@@ -57,7 +53,11 @@ Goodnotes.Player = Goodnotes.Player || {};
     function playTrack(track) {
       $('.track-status').addClass('ion-play');
       $('.track-status').removeClass('ion-volume-high');
-      $('*[data-video-id='+ track.videoId+']').find('.track-status').addClass('ion-volume-high');
+      var $trackData = $('*[data-video-id='+ track.videoId+']')
+      $trackData.find('.track-status').addClass('ion-volume-high');
+
+      $('.track-list-item.active').removeClass('active');
+      $trackData.closest('.track-list-item').addClass('active');
 
       if (track !== currentTrack) {
         Player.__player__.loadVideoById(track.videoId);

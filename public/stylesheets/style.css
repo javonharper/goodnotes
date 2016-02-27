@@ -11,7 +11,7 @@ a {
 }
 
 a:hover, a:active {
-  color: #e9e9e9;
+  color: #f3f3f3;
   text-decoration: none;
 }
 
@@ -29,13 +29,29 @@ input:focus {
 
 .button {
   color: #FFF;
-  background-color: #33C3F0;
+  background-color: rgba(0, 0, 0, 0);
   border: 1px solid #33C3F0;
   height: 38px;
-  padding: 0 30px;
+  padding: 0 15px;
+  color: #33C3F0;
   font-size: 11px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 5px;
+  -webkit-transition: all 200ms;
+}
+
+.button:hover {
+  color: white;
+  background-color: #33C3F0;
+}
+
+.button:active {
+  transform: translateY(3px);
+}
+
+.button:focus {
+  outline: none;
 }
 
 .bg-wrapper {
@@ -58,6 +74,7 @@ input:focus {
   -webkit-filter: blur(2px);
   opacity: 0.5;
   background-size: cover;
+  background-position: center 20%;
   width: 100%;
   height: 100%;
   z-index: -1000;
@@ -117,11 +134,75 @@ footer a:hover, a:active {
 
 /* Index Page */
 .query {
-  margin-bottom: 2em;
+  margin-bottom: 3em;
+  color: #333;
 }
 
 .twitter-typeahead {
   width: 100%;
+}
+
+.index-search {
+  margin-top: 10em;
+  margin-bottom: 5em;
+  color: white;
+}
+
+.search-button {
+  border-color: white;
+  color: white;
+}
+
+.search-button:hover {
+  border: 1px solid #33C3F0;
+}
+
+.home-background-wrapper {
+  background: #333;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  max-height: 45em;
+  z-index: -100;
+}
+
+.home-background {
+  -webkit-filter: blur(2px);
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center 20%;
+}
+
+.homepage-section {
+  margin-bottom: 2em;
+}
+
+.homepage-artists {
+  padding: 1em;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.section-header {
+  font-size: 1.5em;
+}
+
+.homepage-artist-name {
+  color: #333;
+  margin-top: 1em;
+  font-size: 1.3em;
+}
+
+.homepage-artist-image {
+  width: 100%;
+  border-radius: 5px;
+  height: 10em;
+  background-size: cover;
+  background-position: center 20%;
 }
 
 /* Listen Page */
@@ -202,11 +283,18 @@ footer a:hover, a:active {
 }
 
 .track-list-item.active {
-  background-color: #CFD7DA;
+  background-color: #33C3F0;
+  color: white;
+}
+
+.track-list-item.active:hover {
+  background-color: #33C3F0;
+  color: white;
 }
 
 .track-list-item:hover {
   cursor: pointer;
+  background-color: #BDECFB;
 }
 
 .track-status {
@@ -248,10 +336,6 @@ footer a:hover, a:active {
   color: #333;
 }
 
-.similar-artist-name {
-  color: #333;
-}
-
 .similar-artists-header {
 }
 
@@ -260,10 +344,10 @@ footer a:hover, a:active {
   border-radius: 5px;
   height: 15em;
   background-size: cover;
-  background-position: 50% 30%
 }
 
 .similar-artist-name {
+  color: #333;
   margin-top: 1em;
   font-size: 1.3em;
   text-align: center

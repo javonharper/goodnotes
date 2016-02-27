@@ -1,20 +1,20 @@
 extends layout
 
 block content
-  div.bg-wrapper
-    div.artist-image-wrapper
-      div.artist-image-background(style="background-image: url(#{imageUrl})")
-    div.bg-panel
+  .bg-wrapper
+    .artist-image-wrapper
+      .artist-image-background(style="background-image: url(#{imageUrl})")
+    .bg-panel
   main
     .container.listen-header
       .row.artist-description
         .col-md-6
-          div.artist-name= artist
+          .artist-name= artist
           ul.artist-tags
             each tag in tags
               li.artist-tag= tag
           unless emptySummary
-            div.artist-summary
+            .artist-summary
               p!= summary
 
     .container.player-section
@@ -45,13 +45,13 @@ block content
           if similarArtists.length
             .row
               .col-md-12
-                h2.similar-artists-header Digging #{artist}? Check out these similar artists too.
+                h2.similar-artists-header Digging #{artist}? Check out these similar artists.
             .row
               each artist in similarArtists
                 .col-md-4
                   a(href=artist.goodnotesUrl)
-                    div.similar-artist-name= artist.name
-                    div.similar-artist-image(style="background-image: url(#{artist.imageUrl});")
+                    .similar-artist-name= artist.name
+                    .similar-artist-image(style="background-image: url(#{artist.imageUrl});")
           else
             .row
               .col-md-12
