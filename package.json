@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --debug bin/www & node-inspector",
-    "server": "node bin/www"
+    "sever": "nodemon --debug bin/www & node-inspector",
+    "start": "node bin/www"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
