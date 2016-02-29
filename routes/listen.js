@@ -17,7 +17,7 @@ Youtube.authenticate({
 });
 
 router.get('/:artist', function(req, res, next) {
-  var artist = req.params.artist;
+  var artist = decodeString(req.params.artist);
 
   Q.all([
     getInfo(artist),
@@ -75,7 +75,7 @@ var getInfo = function(artist) {
         return {
           name: artist.name,
           imageUrl: artist.image[4]['#text'],
-          goodnotesUrl: "/listen/" + artist.name
+          goodnotesUrl: "/listen/" + encodeString(artist.name)
 
         }
       }),
@@ -111,5 +111,13 @@ var getTrackVideo = function(artist, track) {
 
   return deferred.promise;
 }
+
+function encodeString(str) {
+  return encodeURIComponent(str).replace(/%20/g, "+");
+};
+
+function decodeString(str) {
+  return decodeURIComponent(str.replace(/\+/g, "%20"));
+};
 
 module.exports = router;

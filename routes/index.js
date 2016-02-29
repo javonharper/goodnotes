@@ -21,8 +21,8 @@ router.get('/search', function(req, res, next) {
       handleError
     }
 
-    var artist = artist.artistmatches.artist[0].name
-    res.redirect('/listen/' + artist)
+    var artist = artist.artistmatches.artist[0].name;
+    res.redirect('/listen/' + encodeString(artist));
   });
 });
 
@@ -37,5 +37,13 @@ router.get('/autocomplete/:query', function(req, res, next) {
     }));
   });
 });
+
+function encodeString(str) {
+  return encodeURIComponent(str).replace(/%20/g, "+");
+};
+
+function decodeString(str) {
+  return decodeURIComponent(str.replace(/\+/g, "%20"));
+};
 
 module.exports = router;

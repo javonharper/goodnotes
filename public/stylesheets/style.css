@@ -133,6 +133,17 @@ footer a:hover, a:active {
 
 
 /* Index Page */
+.hero {
+  font-size: 2.5em;
+  text-align: center;
+}
+
+.hero-subtitle {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
 .query {
   color: #333;
 }
