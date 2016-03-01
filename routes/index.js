@@ -39,11 +39,11 @@ router.get('/autocomplete/:query', function(req, res, next) {
 });
 
 function encodeString(str) {
-  return encodeURIComponent(str).replace(/%20/g, "+");
+  return encodeURIComponent(str).replace(/%20/g, "-");
 };
 
 function decodeString(str) {
-  return decodeURIComponent(str.replace(/\+/g, "%20"));
+  return decodeURIComponent(str.replace(/-/g, "%20"));
 };
 
 module.exports = router;

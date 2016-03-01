@@ -32,7 +32,7 @@ router.get('/:artist', function(req, res, next) {
     })).then(function(videoResponse) {
       res.render('listen', {
         title: artist + "'s most popular songs - Goodnotes.io",
-        artist: artist, 
+        artist: info.name, 
         summary: info.summary,
         emptySummary: info.summary.indexOf("<") === 1,
         imageUrl: info.image,
@@ -47,7 +47,7 @@ router.get('/:artist', function(req, res, next) {
 var getTopTracks = function(artist) {
   var deferred = Q.defer();
 
-  lastfm.artist.getTopTracks({artist: artist, limit: 5}, function(err, topTracks) {
+  lastfm.artist.getTopTracks({artist: artist, autocorrect: 1, limit: 5}, function(err, topTracks) {
     if (err) {
       deferred.reject();
     }
@@ -63,12 +63,13 @@ var getTopTracks = function(artist) {
 var getInfo = function(artist) {
   var deferred = Q.defer();
 
-  lastfm.artist.getInfo({artist: artist}, function(err, info) {
+  lastfm.artist.getInfo({artist: artist, autocorrect: 1}, function(err, info) {
     if (err) {
       deferred.reject(err);
     }
 
     deferred.resolve({
+      name: info.name,
       summary: info.bio.summary,
       image: info.image[4]['#text'],
       similarArtists: _.first(_.shuffle(info.similar.artist), 3).map(function(artist) {
@@ -113,11 +114,11 @@ var getTrackVideo = function(artist, track) {
 }
 
 function encodeString(str) {
-  return encodeURIComponent(str).replace(/%20/g, "+");
+  return encodeURIComponent(str).replace(/%20/g, "-");
 };
 
 function decodeString(str) {
-  return decodeURIComponent(str.replace(/\+/g, "%20"));
+  return decodeURIComponent(str.replace(/-/g, "%20"));
 };
 
 module.exports = router;
