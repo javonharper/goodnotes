@@ -62,6 +62,11 @@ block content
   script(type="text/javascript", src="/javascripts/player.js")
 
   script(type='text/javascript').
+    mixpanel.track("Artist view", {
+      "name": "!{artist}"
+    });
+
+  script(type='text/javascript').
     Goodnotes.Player.tracks = !{JSON.stringify(tracks)} 
 
   script(type='text/javascript').
