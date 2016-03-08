@@ -178,6 +178,10 @@ footer a:hover, a:active {
   z-index: -100;
 }
 
+* {
+  -webkit-transition: all 0.5s;
+}
+
 .home-background {
   -webkit-filter: blur(2px);
   opacity: 0.5;
