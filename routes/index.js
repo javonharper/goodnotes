@@ -18,7 +18,7 @@ router.get('/search', function(req, res, next) {
 
   lastfm.artist.search({artist: query, limit: 5}, function(err, artist) {
     if (err) {
-      handleError
+        console.log("Error: Could not find artist " + query);
     }
 
     var artist = artist.artistmatches.artist[0].name;
@@ -29,7 +29,7 @@ router.get('/search', function(req, res, next) {
 router.get('/autocomplete/:query', function(req, res, next) {
   lastfm.artist.search({artist: req.params.query, limit: 3}, function(err, artistResults) {
     if (err) {
-      handleError
+        console.log("Error: Could not find autocomplete for query: " + req.params.query);
     }
 
     res.send(artistResults.artistmatches.artist.map(function(artist) { 
