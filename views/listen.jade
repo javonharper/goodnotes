@@ -4,7 +4,8 @@ block content
   .bg-wrapper
     .artist-image-wrapper
       .artist-image-background(style="background-image: url(#{imageUrl})")
-    .bg-panel
+    .bg-panel-wrapper
+      .bg-panel(style="background-image: url(#{imageUrl})")
   main
     .container.listen-header
       .row.artist-description
@@ -21,7 +22,7 @@ block content
       .row
         .col-md-12
           h1.player-header
-            div Here are the top 5 tracks by #{artist}.
+            div Here are the 5 most popular tracks by #{artist}.
             small Give them a spin.
       .row
         .col-md-4
@@ -45,7 +46,7 @@ block content
           if similarArtists.length
             .row
               .col-md-12
-                h2.similar-artists-header Digging #{artist}? Check out these similar artists.
+                h2.similar-artists-header Like #{artist}? Check out these similar artists.
             .row
               each artist in similarArtists
                 .col-md-4

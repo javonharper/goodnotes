@@ -80,12 +80,24 @@ input:focus {
   z-index: -1000;
 }
 
-.bg-panel {
+.bg-panel-wrapper {
+  background: #333;
   width: 100%;
-  height: 40%;
-  background: #E8F1F5;
+  height: 100%;
+  z-index: -3000;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+}
+
+.bg-panel {
+  -webkit-filter: blur(50px);
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background-size: cover;
+  background-position: center 50%;
   z-index: -500;
-  box-shadow: inset 0 3px 3px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -179,7 +191,7 @@ footer a:hover, a:active {
 }
 
 * {
-  -webkit-transition: all 0.5s;
+  /* -webkit-transition: all 0.5s; */
 }
 
 .home-background {
@@ -351,6 +363,7 @@ footer a:hover, a:active {
 }
 
 .similar-artists-header {
+  color: white;
 }
 
 .similar-artist-image {
@@ -361,7 +374,7 @@ footer a:hover, a:active {
 }
 
 .similar-artist-name {
-  color: #333;
+  color: white;
   margin-top: 1em;
   font-size: 1.3em;
   text-align: center
