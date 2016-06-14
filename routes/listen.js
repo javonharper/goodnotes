@@ -41,20 +41,22 @@ router.get('/:artist', function(req, res, next) {
         similarArtists: info.similarArtists
       });
     });
+  }, function(errs) {
+    return next(errs)
   });
 });
 
 var getTopTracks = function(artist) {
   var deferred = Q.defer();
 
-  lastfm.artist.getTopTracks({artist: artist, autocorrect: 1, limit: 5}, function(err, topTracks) {
+  lastfm.artist.getTopTracks({artist: artist, autocorrect: 1, limit: 5}, function(err, res) {
     if (err) {
       deferred.reject();
+    } else {
+      deferred.resolve(res.track.map(function(track) { 
+        return { name: track.name };
+      }));
     }
-
-    deferred.resolve(topTracks.track.map(function(track) { 
-      return { name: track.name };
-    }));
   });
 
   return deferred.promise;
@@ -66,24 +68,24 @@ var getInfo = function(artist) {
   lastfm.artist.getInfo({artist: artist, autocorrect: 1}, function(err, info) {
     if (err) {
       deferred.reject(err);
+    } else {
+      deferred.resolve({
+        name: info.name,
+        summary: info.bio.summary,
+        image: info.image[4]['#text'],
+        similarArtists: _.first(_.shuffle(info.similar.artist), 3).map(function(artist) {
+          return {
+            name: artist.name,
+            imageUrl: artist.image[4]['#text'],
+            goodnotesUrl: "/listen/" + encodeString(artist.name)
+
+          }
+        }),
+        tags: _.first(info.tags.tag, 3).map(function(tag){ 
+          return tag.name 
+        })
+      });
     }
-
-    deferred.resolve({
-      name: info.name,
-      summary: info.bio.summary,
-      image: info.image[4]['#text'],
-      similarArtists: _.first(_.shuffle(info.similar.artist), 3).map(function(artist) {
-        return {
-          name: artist.name,
-          imageUrl: artist.image[4]['#text'],
-          goodnotesUrl: "/listen/" + encodeString(artist.name)
-
-        }
-      }),
-      tags: _.first(info.tags.tag, 3).map(function(tag){ 
-        return tag.name 
-      })
-    });
   });
 
   return deferred.promise;
