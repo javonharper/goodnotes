@@ -31,7 +31,7 @@ router.get('/:artist', function(req, res, next) {
       return getTrackVideo(artist, track.name);
     })).then(function(videoResponse) {
       res.render('listen', {
-        title: artist + "'s most popular songs - Goodnotes.io",
+        title: info.name + "'s most popular songs - Goodnotes.io",
         artist: info.name, 
         summary: info.summary,
         emptySummary: info.summary.indexOf("<") === 1,
