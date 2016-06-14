@@ -14,4 +14,22 @@ block content
           input.query(class="artist-typeahead", type="text", name="query", autofocus="true", autocomplete="off", placeholder="Search any musical artist or band")
         .col-md-2
           button.button.search-button Search
+  .container.homepage-artists
+    .homepage-section
+      .row
+        .col-md-12
+          .section-header ...Or listen to these timeless bands
+      .row
+        .col-md-4
+          a(href="/listen/Creed")
+            .homepage-artist-name= "Creed"
+            .homepage-artist-image(style="background-image: url('http://img2-ak.lst.fm/i/u/770x0/20dd1a2788264a5ca9c2aab0fc6d15cf.jpg');")
+        .col-md-4
+          a(href="/listen/Limp-Bizkit")
+            .homepage-artist-name= "Limp Bizkit"
+            .homepage-artist-image(style="background-image: url('http://img2-ak.lst.fm/i/u/770x0/767435859f8d4f63bd9cc3690b429a7f.jpg');")
+        .col-md-4
+          a(href="/listen/Nickelback")
+            .homepage-artist-name= "Nickelback"
+            .homepage-artist-image(style="background-image: url('http://img2-ak.lst.fm/i/u/770x0/920446d4c5074b0499882138b230dc23.jpg');")
   // pre #{error.stack}
