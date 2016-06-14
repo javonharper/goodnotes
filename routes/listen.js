@@ -40,9 +40,11 @@ router.get('/:artist', function(req, res, next) {
         tracks: videoResponse,
         similarArtists: info.similarArtists
       });
+    }, function(errs) {
+      return next(errs);
     });
   }, function(errs) {
-    return next(errs)
+    return next(errs);
   });
 });
 
@@ -99,17 +101,22 @@ var getTrackVideo = function(artist, track) {
     part: 'id',
     maxResults: 1
   }, function(err, result) {
-    if (err) {
-      deferred.reject();
+
+    if (_.isEmpty(_.first(result.items))) {
+      err = new Error("Cound not find video for " + artist + " - " + track);
     }
 
-    var videoId = _.first(result.items).id.videoId;
+    if (err) {
+      deferred.reject();
+    } else {
+      var videoId = _.first(result.items).id.videoId;
 
-    deferred.resolve({
-      artist: artist,
-      name: track,
-      videoId: videoId
-    });
+      deferred.resolve({
+        artist: artist,
+        name: track,
+        videoId: videoId
+      });
+    }
   });
 
   return deferred.promise;
