@@ -1,6 +1,17 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .home-background-wrapper
+    .home-background(style="background-image: url('images/background.jpg')")
+  .container.index-search
+    .row
+      .col-md-10.col-md-offset-1
+        h1.hero Whoops! Couldn't find that!
+        p.hero-subtitle Search for another artist?
+    .row
+      form.artist-search(action="/search", method="get")
+        .col-md-6.col-md-offset-2
+          input.query(class="artist-typeahead", type="text", name="query", autofocus="true", autocomplete="off", placeholder="Search any musical artist or band")
+        .col-md-2
+          button.button.search-button Search
+  // pre #{error.stack}
