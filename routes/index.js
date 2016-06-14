@@ -18,11 +18,11 @@ router.get('/search', function(req, res, next) {
 
   lastfm.artist.search({artist: query, limit: 5}, function(err, artist) {
     if (err) {
-        console.log("Error: Could not find artist " + query);
+      next(err);
+    } else {
+      var artist = artist.artistmatches.artist[0].name;
+      res.redirect('/listen/' + encodeString(artist));
     }
-
-    var artist = artist.artistmatches.artist[0].name;
-    res.redirect('/listen/' + encodeString(artist));
   });
 });
 
