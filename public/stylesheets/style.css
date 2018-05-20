@@ -381,6 +381,11 @@ footer a:hover, a:active {
 }
 
 /* Typeahead */
+
+.artist-typeahead {
+  margin-bottom: 1em;
+}
+
 .tt-dropdown-menu {
   background: white;
   border-bottom-left-radius: 5px;
